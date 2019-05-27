@@ -33,21 +33,15 @@ namespace Utilities
                 recordBuilder.Evaporation = float.Parse(currentRow[4].ToString());
                 recordBuilder.Sunshine = float.Parse(currentRow[5].ToString());
                 recordBuilder.WindGustSpeed = float.Parse(currentRow[6].ToString());
-                recordBuilder.WindDir = (string)currentRow[7];
-                recordBuilder.WindSpeed = int.Parse(currentRow[8].ToString());
-                recordBuilder.Humidity = int.Parse(currentRow[9].ToString());
-                recordBuilder.Pressure = float.Parse(currentRow[10].ToString());
-                recordBuilder.Cloud = int.Parse(currentRow[11].ToString());
-                recordBuilder.Temperature = float.Parse(currentRow[12].ToString());
-                recordBuilder.RainToday = currentRow[13].ToString() == "Yes" ? true : false;
-                recordBuilder.RiskMm = float.Parse(currentRow[14].ToString());
-                recordBuilder.RainTomorrow = currentRow[15].ToString() == "Yes" ? true : false;
+                recordBuilder.WindSpeed = int.Parse(currentRow[7].ToString());
+                recordBuilder.Humidity = int.Parse(currentRow[8].ToString());
+                recordBuilder.Pressure = float.Parse(currentRow[9].ToString());
+                recordBuilder.Cloud = int.Parse(currentRow[10].ToString());
+                recordBuilder.Temperature = float.Parse(currentRow[11].ToString());
+                recordBuilder.RiskMm = float.Parse(currentRow[12].ToString());
 
                 records.Add(recordBuilder);
             }
-
-
-
             return records;
         }
     }
