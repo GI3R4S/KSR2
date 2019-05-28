@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Utilities
+namespace Toolkit
 {
     public class Record
     {
