@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfLinguisticVariable xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <LinguisticVariable>
+    <Name>Znikoma liczba</Name>
+    <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+    <Parameters>
+      <double>0</double>
+      <double>0</double>
+      <double>500</double>
+      <double>1000</double>
+    </Parameters>
+    <MemberToExtract></MemberToExtract>
+  </LinguisticVariable>
+  
+  <LinguisticVariable>
+    <Name>1 z 10</Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+    <Parameters>
+      <double>0</double>
+      <double>5800</double>
+      <double>11600</double>
+    </Parameters>
+    <MemberToExtract></MemberToExtract>
+  </LinguisticVariable>
+</ArrayOfLinguisticVariable>

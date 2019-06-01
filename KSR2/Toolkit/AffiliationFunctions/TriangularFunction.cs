@@ -11,8 +11,8 @@ namespace Toolkit.AffiliationFunctions
         public double GetMembership(double x)
         {
             double a = Parameters[0];
-            double b = Parameters[0];
-            double c = Parameters[0];
+            double b = Parameters[1];
+            double c = Parameters[2];
    
             if (Math.Abs(x - b) < .00001) return 1;
 

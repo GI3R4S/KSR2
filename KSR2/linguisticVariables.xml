@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfLinguisticVariable xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<LinguisticVariable>
+		<Name>nieznaczne opady</Name>
+		<MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+		<Parameters>
+			<double>1</double>
+			<double>10</double>
+			<double>20</double>
+			<double>29</double>
+		</Parameters>
+		<MemberToExtract>Rainfall</MemberToExtract>
+	</LinguisticVariable>
+
+	<LinguisticVariable>
+		<Name>opady</Name>
+		<MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+		<Parameters>
+			<double>30</double>
+			<double>50</double>
+			<double>80</double>
+			<double>100</double>
+		</Parameters>
+		<MemberToExtract>Rainfall</MemberToExtract>
+	</LinguisticVariable>
+
+	<LinguisticVariable>
+		<Name>ulewne opady</Name>
+		<MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+		<Parameters>
+			<double>80</double>
+			<double>120</double>
+			<double>250</double>
+			<double>250</double>
+		</Parameters>
+		<MemberToExtract>Rainfall</MemberToExtract>
+	</LinguisticVariable>
+
+	<LinguisticVariable>
+		<Name>mocne porywy wiatru</Name>
+		<MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+		<Parameters>
+			<double>30</double>
+			<double>50</double>
+			<double>200</double>
+			<double>200</double>
+		</Parameters>
+		<MemberToExtract>WindGustSpeed</MemberToExtract>
+	</LinguisticVariable>
+
+	<LinguisticVariable>
+		<Name>słabe porywy wiatru</Name>
+		<MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+		<Parameters>
+			<double>0</double>
+			<double>0</double>
+			<double>20</double>
+			<double>40</double>
+		</Parameters>
+		<MemberToExtract>WindGustSpeed</MemberToExtract>
+	</LinguisticVariable>
+	
+	
+	<LinguisticVariable>
+		<Name>wilgotność około 90%</Name>
+		<MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+		<Parameters>
+			<double>80</double>
+			<double>90</double>
+			<double>100</double>
+		</Parameters>
+		<MemberToExtract>Humidity</MemberToExtract>
+	</LinguisticVariable>
+
+	<LinguisticVariable>
+		<Name>niskie ciśnienie</Name>
+		<MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+		<Parameters>
+			<double>980</double>
+			<double>980</double>
+			<double>1008</double>
+			<double>1018</double>
+		</Parameters>
+		<MemberToExtract>WindGustSpeed</MemberToExtract>
+	</LinguisticVariable>
+
+	<LinguisticVariable>
+		<Name>wysokie ciśnienie</Name>
+		<MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+		<Parameters>
+			<double>1008</double>
+			<double>1018</double>
+			<double>1040</double>
+			<double>1040</double>
+		</Parameters>
+		<MemberToExtract>WindGustSpeed</MemberToExtract>
+	</LinguisticVariable>
+
+	<LinguisticVariable>
+		<Name>ciśnienie normalne</Name>
+		<MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+		<Parameters>
+			<double>1008</double>
+			<double>1013</double>
+			<double>1018</double>
+		</Parameters>
+		<MemberToExtract>Humidity</MemberToExtract>
+	</LinguisticVariable>
+
+	<LinguisticVariable>
+		<Name>małe zaachmurzenie</Name>
+		<MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+		<Parameters>
+			<double>0</double>
+			<double>1</double>
+			<double>1</double>
+			<double>1</double>
+			<double>2</double>
+			<double>0.8</double>
+			<double>3</double>
+			<double>0.8</double>			
+			<double>4</double>
+			<double>0.5</double>
+			<double>5</double>
+			<double>0.5</double>
+			<double>6</double>
+			<double>0</double>
+			<double>7</double>
+			<double>0</double>
+			<double>8</double>
+			<double>0</double>
+			<double>9</double>
+			<double>0</double>
+		</Parameters>
+		<MemberToExtract>Humidity</MemberToExtract>
+	</LinguisticVariable>
+	
+</ArrayOfLinguisticVariable>
