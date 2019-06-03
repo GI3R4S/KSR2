@@ -5,8 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UserInteface"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="MainWindow" Height="900" Width="1600"
+        Background="#333333">
+    <Grid Margin="0,66,0,0" >
+        <ListView x:Name="Results" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#333333">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="TextBlock.Background" Value="#333333" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBox IsReadOnly="True" Text="{Binding BestSummarization}" FontSize="24"
+                                 FontWeight="Heavy"  Background="#111111" TextElement.Foreground="White"/>
+                        <Expander>
+                            <StackPanel Margin="30,0,0,0">
+                                <ItemsControl ItemsSource="{Binding AllSummarizations}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBox IsReadOnly="True" Text="{Binding Mode=OneWay}" Margin="0,2" Background="#333333" FontWeight="Bold" TextElement.Foreground="White" FontSize="20"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Expander>
+                    </StackPanel>
+
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Content="Zapisz do pliku" FontSize="24" x:Name="Button_Save"  HorizontalAlignment="Left" Margin="20,-67,0,0" VerticalAlignment="Top" Width="1572" Height="62" Click="Button_Click"/>
     </Grid>
 </Window>

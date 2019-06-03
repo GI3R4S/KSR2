@@ -7,6 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInteface", "UserIntefac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolkit", "Toolkit\Toolkit.csproj", "{F3813269-AD9C-4967-AF81-3685E6B97259}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{792FA9C2-9035-4360-A19C-5133E0245C1A}"
+	ProjectSection(SolutionItems) = preProject
+		linguisticQualificators.xml = linguisticQualificators.xml
+		Resources\linguisticQuantifiers.xml = Resources\linguisticQuantifiers.xml
+		linguisticVariables.xml = linguisticVariables.xml
+		Resources\weatherAUS.xlsx = Resources\weatherAUS.xlsx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

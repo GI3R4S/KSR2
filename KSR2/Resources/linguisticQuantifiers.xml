@@ -23,11 +23,11 @@
     <MemberToExtract></MemberToExtract>
   </LinguisticVariable>
   <LinguisticVariable>
-    <Name>Niemal wszystkie</Name>
+    <Name>Prawie całość</Name>
     <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
     <Parameters>
-      <double>50000</double>
       <double>55000</double>
+      <double>57000</double>
       <double>58065</double>
       <double>58065</double>
     </Parameters>
@@ -39,14 +39,14 @@
     <Parameters>
       <double>0</double>
       <double>0</double>
-      <double>500</double>
       <double>1000</double>
+      <double>3000</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
   </LinguisticVariable>
-  
+
   <LinguisticVariable>
-    <Name>1 z 10</Name>
+    <Name>1 na 10</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
       <double>0</double>
@@ -56,7 +56,7 @@
     <MemberToExtract></MemberToExtract>
   </LinguisticVariable>
   <LinguisticVariable>
-    <Name>co piąty</Name>
+    <Name>co piąty z</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
       <double>5800</double>
@@ -66,16 +66,14 @@
     <MemberToExtract></MemberToExtract>
   </LinguisticVariable>
   <LinguisticVariable>
-    <LinguisticVariable>
-      <Name>3/10</Name>
-      <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
-      <Parameters>
-        <double>11600</double>
-        <double>17400</double>
-        <double>23200</double>
-      </Parameters>
-      <MemberToExtract></MemberToExtract>
-    </LinguisticVariable>
+    <Name>3/10</Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+    <Parameters>
+      <double>11600</double>
+      <double>17400</double>
+      <double>23200</double>
+    </Parameters>
+    <MemberToExtract></MemberToExtract>
   </LinguisticVariable>
   <LinguisticVariable>
     <Name>2/5</Name>

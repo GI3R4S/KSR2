@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfLinguisticVariable xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<LinguisticVariable>
+		<Name>wietrzny dzień</Name>
+		<MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+		<Parameters>
+			<double>15</double>
+			<double>40</double>
+			<double>100</double>
+			<double>100</double>
+		</Parameters>
+		<MemberToExtract>WindGustSpeed</MemberToExtract>
+	</LinguisticVariable>
+
+	<LinguisticVariable> 
+		<Name>bezwietrzny dzień</Name>
+		<MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+		<Parameters>
+			<double>0</double>
+			<double>0</double>
+			<double>10</double>
+			<double>20</double>
+		</Parameters>
+		<MemberToExtract>WindGustSpeed</MemberToExtract>
+	</LinguisticVariable>
+
+	<LinguisticVariable>
+		<Name>przewidywany opad następnego dnia</Name>
+		<MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+		<Parameters>
+			<double>5</double>
+			<double>15</double>
+			<double>300</double>
+			<double>300</double>
+		</Parameters>
+		<MemberToExtract>WindGustSpeed</MemberToExtract>
+	</LinguisticVariable>
+
+	<LinguisticVariable>
+		<Name>brak przewidywanych opadów nasępnego dnia</Name>
+		<MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+		<Parameters>
+			<double>0</double>
+			<double>0</double>
+			<double>10</double>
+		</Parameters>
+		<MemberToExtract>WindGustSpeed</MemberToExtract>
+	</LinguisticVariable>
+	
+</ArrayOfLinguisticVariable>

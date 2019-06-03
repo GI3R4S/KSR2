@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Toolkit.AffiliationFunctions
 {
     public class DiscreteFunction : IMembershipFunction
     {
-        private Dictionary<int, double> Membership = new Dictionary<int, double>();
-        public List<double> Parameters { get; set; } 
-
-        public double GetMembership(double x)
-        {
-            return Membership[(int) x];
-        }
-
         public DiscreteFunction(List<double> aArgs)
         {
             Debug.Assert(aArgs.Count >= 2 && aArgs.Count % 2 == 1);
@@ -23,6 +14,18 @@ namespace Toolkit.AffiliationFunctions
             {
                 Membership[(int)aArgs[i]] = aArgs[i + 1];
             }
+        }
+
+        public DiscreteFunction()
+        {
+        }
+
+        private Dictionary<int, double> Membership = new Dictionary<int, double>();
+        public List<double> Parameters { get; set; } = new List<double>();
+
+        public double GetMembership(double x)
+        {
+            return Membership[(int)x];
         }
     }
 }
