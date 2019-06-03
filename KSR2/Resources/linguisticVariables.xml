@@ -4,10 +4,10 @@
 		<Name>nieznaczne opady</Name>
 		<MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
 		<Parameters>
-			<double>1</double>
-			<double>10</double>
-			<double>20</double>
-			<double>29</double>
+			<double>0</double>
+			<double>0</double>
+			<double>3</double>
+			<double>5</double>
 		</Parameters>
 		<MemberToExtract>Rainfall</MemberToExtract>
 	</LinguisticVariable>
@@ -16,20 +16,19 @@
 		<Name>opady</Name>
 		<MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
 		<Parameters>
-			<double>30</double>
-			<double>50</double>
-			<double>80</double>
-			<double>100</double>
+			<double>2</double>
+			<double>10</double>
+			<double>20</double>
+			<double>28</double>
 		</Parameters>
 		<MemberToExtract>Rainfall</MemberToExtract>
 	</LinguisticVariable>
 
 	<LinguisticVariable>
 		<Name>ulewne opady</Name>
-		<MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+		<MembershipFunctionType>TriangularFunction</MembershipFunctionType>
 		<Parameters>
-			<double>80</double>
-			<double>120</double>
+			<double>20</double>
 			<double>250</double>
 			<double>250</double>
 		</Parameters>

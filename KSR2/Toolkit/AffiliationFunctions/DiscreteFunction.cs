@@ -12,7 +12,7 @@ namespace Toolkit.AffiliationFunctions
 
             for (int i = 0; i < aArgs.Count; i += 2)
             {
-                Membership[(int)aArgs[i]] = aArgs[i + 1];
+                Membership[aArgs[i]] = aArgs[i + 1];
             }
         }
 
@@ -20,12 +20,12 @@ namespace Toolkit.AffiliationFunctions
         {
         }
 
-        private Dictionary<int, double> Membership = new Dictionary<int, double>();
+        private Dictionary<double, double> Membership = new Dictionary<double, double>();
         public List<double> Parameters { get; set; } = new List<double>();
 
         public double GetMembership(double x)
         {
-            return Membership[(int)x];
+            return Membership[x];
         }
     }
 }

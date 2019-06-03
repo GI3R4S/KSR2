@@ -28,22 +28,16 @@ namespace Toolkit.AffiliationFunctions
             double b = Parameters[1];
             double c = Parameters[2];
 
-            if (Math.Abs(x - b) < .00001)
+            if (x > a && x <= b)
             {
-                return 1;
+                return (x - a) / (b - a);
             }
-
-            if (x > a && x < b)
+            else if (x > b && x <= c)
             {
-                return 1.0 / (b - a) * x + 1.0 - 1.0 / (b - a) * b;
+                return (c - x) / (c - b);
             }
-
-            if (x > b && x < c)
-            {
-                return 1.0 / (b - c) * x + 1.0 - 1.0 / (b - c) * b;
-            }
-
-            return 0;
+            else
+                return 0;
         }
 
 

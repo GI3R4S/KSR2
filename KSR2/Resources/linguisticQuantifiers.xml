@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfLinguisticVariable xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <LinguisticVariable>
-    <Name>Większość</Name>
-    <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+    <Name>Około 40000</Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
-      <double>29033</double>
-      <double>32000</double>
-      <double>58065</double>
-      <double>58065</double>
+      <double>39000</double>
+      <double>40000</double>
+      <double>41000</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
   </LinguisticVariable>
   <LinguisticVariable>
-    <Name>Mniejszość</Name>
-    <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+    <Name>Około 20000</Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
-      <double>0</double>
-      <double>0</double>
-      <double>26000</double>
-      <double>29032</double>
+      <double>19000</double>
+      <double>20000</double>
+      <double>21000</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
   </LinguisticVariable>
@@ -26,9 +24,9 @@
     <Name>Prawie całość</Name>
     <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
     <Parameters>
-      <double>55000</double>
-      <double>57000</double>
-      <double>58065</double>
+      <double>57965</double>
+      <double>57990</double>
+      <double>58040</double>
       <double>58065</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
@@ -38,14 +36,14 @@
     <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
     <Parameters>
       <double>0</double>
-      <double>0</double>
-      <double>1000</double>
-      <double>3000</double>
+      <double>25</double>
+      <double>75</double>
+      <double>100</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
   </LinguisticVariable>
 
-  <LinguisticVariable>
+  <!--<LinguisticVariable>
     <Name>1 na 10</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
@@ -54,7 +52,7 @@
       <double>11600</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
-  </LinguisticVariable>
+  </LinguisticVariable>-->
   <LinguisticVariable>
     <Name>co piąty z</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
@@ -65,7 +63,7 @@
     </Parameters>
     <MemberToExtract></MemberToExtract>
   </LinguisticVariable>
-  <LinguisticVariable>
+  <!--<LinguisticVariable>
     <Name>3/10</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
@@ -74,8 +72,8 @@
       <double>23200</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
-  </LinguisticVariable>
-  <LinguisticVariable>
+  </LinguisticVariable>-->
+  <!--<LinguisticVariable>
     <Name>2/5</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
@@ -84,7 +82,7 @@
       <double>29000</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
-  </LinguisticVariable>
+  </LinguisticVariable>-->
   <LinguisticVariable>
     <Name>Połowa</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
@@ -95,7 +93,7 @@
     </Parameters>
     <MemberToExtract></MemberToExtract>
   </LinguisticVariable>
-  <LinguisticVariable>
+  <!--<LinguisticVariable>
     <Name>3/5</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
@@ -104,7 +102,7 @@
       <double>40600</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
-  </LinguisticVariable>
+  </LinguisticVariable>-->
   <LinguisticVariable>
     <Name>około 70 %</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
@@ -125,7 +123,7 @@
     </Parameters>
     <MemberToExtract></MemberToExtract>
   </LinguisticVariable>
-  <LinguisticVariable>
+  <!--<LinguisticVariable>
     <Name>około 90% </Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
@@ -134,5 +132,5 @@
       <double>58000</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
-  </LinguisticVariable>
+  </LinguisticVariable>-->
 </ArrayOfLinguisticVariable>
