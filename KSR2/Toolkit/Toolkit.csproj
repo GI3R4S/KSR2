@@ -62,6 +62,7 @@
     <Compile Include="AffiliationFunctions\MembershipFunctionTypes.cs" />
     <Compile Include="AffiliationFunctions\TrapezoidalFunction.cs" />
     <Compile Include="AffiliationFunctions\TriangularFunction.cs" />
+    <Compile Include="LinguisticSummarizationStructures\ClassicalSet.cs" />
     <Compile Include="LinguisticSummarizationStructures\FuzzySet.cs" />
     <Compile Include="LinguisticSummarizationStructures\LinguisticVariable.cs" />
     <Compile Include="LinguisticSummarizationStructures\LinguisticVariableSerializer.cs" />

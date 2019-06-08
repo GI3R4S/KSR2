@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Toolkit
@@ -25,7 +26,7 @@ namespace Toolkit
         }
 
         // konstruktor FuzzySet - przyjmuje listę rekordów oraz grupę zmiennych lingwistycznych
-        private FuzzySet(IEnumerable<Record> aRecords, LinguisticVariablesGroup aLinguisticVariablesGroup)
+        private FuzzySet(List<Record> aRecords, LinguisticVariablesGroup aLinguisticVariablesGroup)
         {
             aRecords = aRecords.ToList();
             linguisticVariablesGroup = aLinguisticVariablesGroup;
@@ -84,22 +85,43 @@ namespace Toolkit
             }
         }
 
-        // zwraca wynik operacji support w postaci listy rekordów - wykonywane dla elements będącego listą rekordów
         public List<Record> Support()
         {
-            var filteredElements = elements.Where(record => GetAffilationForRecord(record) > 0).ToList();
-            if (filteredElements.Count == 0)
-            {
-
-            }
+            List<Record> filteredElements = elements.Where(record => GetAffilationForRecord(record) > 0).ToList();
             return filteredElements;
         }
-        // zlicz kardynalność na podstawie wartości f. przynależnści między rekordami a zadanym zbiorem rozmytym
+
+        public List<Record> Core()
+        {
+            List<Record> filteredElements = elements.Where(record => GetAffilationForRecord(record) > 1).ToList();
+            return filteredElements;
+        }
+
+        public double Height()
+        {
+            double height = elements.Max(record => GetAffilationForRecord(record));  //elements.Where(record => GetAffilationForRecord(record) > 1).ToList();
+            return height;
+        }
+
+        public List<Record> AlphaCut(double aMinivalValue)
+        {
+            Debug.Assert(aMinivalValue >= 0 && aMinivalValue<= 100);
+            List<Record> filteredElements = elements.Where(record => GetAffilationForRecord(record) > aMinivalValue).ToList();
+            return filteredElements;
+        }
+
         public double CardinalNumber()
         {
             double sum = membershipMap.Sum(pair => pair.Value);
             return sum;
         }
+
+        public bool IsEmpty()
+        {
+            return elements.All(record => GetAffilationForRecord(record) == 0);
+        }
+
+
         // sprawdza obecność sumaryzatora
         public bool HasOr
         {
