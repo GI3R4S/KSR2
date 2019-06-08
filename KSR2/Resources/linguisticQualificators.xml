@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfLinguisticVariable xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<LinguisticVariable>
-		<Name>wietrzny dzień</Name>
-		<MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+		<Name>porywisty wiatr</Name>
+		<MembershipFunctionType>TriangularFunction</MembershipFunctionType>
 		<Parameters>
-			<double>15</double>
-			<double>40</double>
+			<double>25</double>
 			<double>100</double>
 			<double>100</double>
 		</Parameters>
@@ -13,13 +12,12 @@
 	</LinguisticVariable>
 
 	<LinguisticVariable> 
-		<Name>bezwietrzny dzień</Name>
-		<MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+		<Name>spokojny wiatr</Name>
+		<MembershipFunctionType>TriangularFunction</MembershipFunctionType>
 		<Parameters>
 			<double>0</double>
 			<double>0</double>
-			<double>10</double>
-			<double>20</double>
+			<double>30</double>
 		</Parameters>
 		<MemberToExtract>WindGustSpeed</MemberToExtract>
 	</LinguisticVariable>
@@ -31,9 +29,9 @@
 			<double>5</double>
 			<double>15</double>
 			<double>300</double>
-			<double>300</double>
+			<double>400</double>
 		</Parameters>
-		<MemberToExtract>WindGustSpeed</MemberToExtract>
+		<MemberToExtract>RiskMm</MemberToExtract>
 	</LinguisticVariable>
 
 	<LinguisticVariable>
@@ -44,7 +42,7 @@
 			<double>0</double>
 			<double>10</double>
 		</Parameters>
-		<MemberToExtract>WindGustSpeed</MemberToExtract>
+		<MemberToExtract>RiskMm</MemberToExtract>
 	</LinguisticVariable>
 	
 </ArrayOfLinguisticVariable>

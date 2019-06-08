@@ -19,33 +19,39 @@ namespace Toolkit
 
         public static List<LinguisticVariable> Deserialize(string aPath)
         {
-            List<LinguisticVariable> items = new List<LinguisticVariable>();
+            List<LinguisticVariable> linguisticVariables = new List<LinguisticVariable>();
             using (StreamReader streamReader = new StreamReader(aPath))
             {
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<LinguisticVariable>));
-                items = (List<LinguisticVariable>)xmlSerializer.Deserialize(streamReader);
+                linguisticVariables = (List<LinguisticVariable>)xmlSerializer.Deserialize(streamReader);
 
             }
-            foreach (var item in items)
+
+
+            foreach (LinguisticVariable item in linguisticVariables)
             {
                 item.MembershipFunction.Parameters = item.Parameters;
             }
+            PrepareColumnDataExtractor(linguisticVariables);
 
-            foreach (var item in items)
+            return linguisticVariables;
+
+        }
+
+        private static void PrepareColumnDataExtractor(List<LinguisticVariable> aLingusticVariables)
+        {
+            foreach (LinguisticVariable linguisticVariable in aLingusticVariables)
             {
-                if (item.MemberToExtract != "")
+                if (linguisticVariable.MemberToExtract != "")
                 {
-                    var getterMethodInfo = typeof(Record).GetProperty(item.MemberToExtract).GetGetMethod();
+                    var getterMethodInfo = typeof(Record).GetProperty(linguisticVariable.MemberToExtract).GetGetMethod();
                     var entity = Expression.Parameter(typeof(Record));
                     var getterCall = Expression.Call(entity, getterMethodInfo);
-                    var castToObject = Expression.Convert(getterCall, typeof(double));
-                    var lambda = Expression.Lambda(castToObject, entity);
+                    LambdaExpression lambda = Expression.Lambda(Expression.Convert(getterCall, typeof(double)), entity);
 
-                    item.Extractor = (Func<Record, double>)lambda.Compile();
+                    linguisticVariable.Extractor = (Func<Record, double>)lambda.Compile();
                 }
             }
-            return items;
-
         }
     }
 }
