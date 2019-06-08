@@ -27,6 +27,12 @@ namespace UserInteface
             List<LinguisticVariable> qualificators = LinguisticVariableSerializer.Deserialize("..\\..\\..\\Resources\\linguisticQualificators.xml");
             #endregion
 
+            //List<FuzzySet> fuzzySets = new List<FuzzySet>();
+            //foreach(var variable in variables)
+            //{
+            //    fuzzySets.Add(new FuzzySet(data, variable));
+            //}
+
             var groupsOfLinguisticVariables = variables.GroupBy(variable => variable.MemberToExtract).ToList();
             List<FuzzySet> fuzzySets = new List<FuzzySet>();
 
@@ -43,16 +49,15 @@ namespace UserInteface
             #endregion
 
 
-            var i = 0;
             List<double> qualities = new List<double>();
             foreach (FuzzySet fuzzySet in fuzzySets)
             {
                 Process(fuzzySet);
-                fuzzySet.Qualificator = new FuzzySet(data, qualificators[i++]);
-                if (i == qualificators.Count)
+                foreach(LinguisticVariable qualificator in qualificators)
                 {
-                    i = 0;
+                    fuzzySet.Qualificator = new FuzzySet(data, qualificator);
                 }
+
                 Process(fuzzySet);
 
                 void Process(FuzzySet set)

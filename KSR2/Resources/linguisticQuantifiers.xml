@@ -20,7 +20,7 @@
     </Parameters>
     <MemberToExtract></MemberToExtract>
   </LinguisticVariable>
-  <LinguisticVariable>
+  <!--<LinguisticVariable>
     <Name>Prawie wszystkie</Name>
     <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
     <Parameters>
@@ -41,7 +41,7 @@
       <double>100</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
-  </LinguisticVariable>
+  </LinguisticVariable>-->
 
   <LinguisticVariable>
     <Name>1 na 10</Name>
@@ -53,7 +53,7 @@
     </Parameters>
     <MemberToExtract></MemberToExtract>
   </LinguisticVariable>
-  <LinguisticVariable>
+  <!--<LinguisticVariable>
     <Name>co piąty z</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
@@ -62,7 +62,7 @@
       <double>17400</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
-  </LinguisticVariable>
+  </LinguisticVariable>-->
   <LinguisticVariable>
     <Name>3/10</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
@@ -73,7 +73,7 @@
     </Parameters>
     <MemberToExtract></MemberToExtract>
   </LinguisticVariable>
-  <LinguisticVariable>
+  <!--<LinguisticVariable>
     <Name>2/5</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
@@ -82,8 +82,8 @@
       <double>29000</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
-  </LinguisticVariable>
-  <LinguisticVariable>
+  </LinguisticVariable>-->
+  <!--<LinguisticVariable>
     <Name>Połowa</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
@@ -102,7 +102,7 @@
       <double>40600</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
-  </LinguisticVariable>
+  </LinguisticVariable>-->
   <LinguisticVariable>
     <Name>około 70 %</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
@@ -113,7 +113,7 @@
     </Parameters>
     <MemberToExtract></MemberToExtract>
   </LinguisticVariable>
-  <LinguisticVariable>
+  <!--<LinguisticVariable>
     <Name>około 4/5 </Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
@@ -122,7 +122,7 @@
       <double>52200</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
-  </LinguisticVariable>
+  </LinguisticVariable>-->
   <LinguisticVariable>
     <Name>około 90% </Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>

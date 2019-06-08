@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Toolkit.LinguisticSummarizationStructures;
 
 namespace Toolkit
 {
@@ -9,15 +10,15 @@ namespace Toolkit
     {
         private LinguisticVariablesGroup linguisticVariablesGroup;
         private Dictionary<Record, double> membershipMap = new Dictionary<Record, double>();
-        private List<Record> allElements;
-        private List<Record> elements;
+        private ClassicalSet<Record> allElements = new ClassicalSet<Record>();
+        private ClassicalSet<Record> elements = new ClassicalSet<Record>();
         private FuzzySet qualificator;
 
 
         // konstruktor FuzzySet - przyjmuje listę rekordów oraz jedną zmienną lingwistyczną
         public FuzzySet(List<Record> aRecords, LinguisticVariable aLinguisticVariable)
         {
-            elements = aRecords.ToList();
+            elements.Elements = aRecords.ToList();
             linguisticVariablesGroup =
                 new LinguisticVariablesGroup
                 {
@@ -42,10 +43,10 @@ namespace Toolkit
             set
             {
                 qualificator = value;
-                allElements = elements.ToList();
+                allElements.Elements = elements.Elements.ToList();
 
                 List<Record> support = qualificator.Support();
-                elements = support;
+                elements.Elements = support;
             }
         }
 
@@ -79,7 +80,7 @@ namespace Toolkit
                 double GetOwnMembership()
                 {
                     return group.LinguisticVariable.MembershipFunction.GetMembership(group.LinguisticVariable.IsQuantifier()
-                        ? group.LinguisticVariable.MembershipFunction.GetMembership(elements.Count)
+                        ? group.LinguisticVariable.MembershipFunction.GetMembership(elements.Elements.Count)
                         : group.LinguisticVariable.Extractor(item));
                 }
             }
@@ -87,28 +88,39 @@ namespace Toolkit
 
         public List<Record> Support()
         {
-            List<Record> filteredElements = elements.Where(record => GetAffilationForRecord(record) > 0).ToList();
+            List<Record> filteredElements = elements.Elements.Where(record => GetAffilationForRecord(record) > 0).ToList();
             return filteredElements;
         }
 
+        #region Unused
         public List<Record> Core()
         {
-            List<Record> filteredElements = elements.Where(record => GetAffilationForRecord(record) > 1).ToList();
+            List<Record> filteredElements = elements.Elements.Where(record => GetAffilationForRecord(record) > 1).ToList();
             return filteredElements;
         }
 
         public double Height()
         {
-            double height = elements.Max(record => GetAffilationForRecord(record));  //elements.Where(record => GetAffilationForRecord(record) > 1).ToList();
+            double height = elements.Elements.Max(record => GetAffilationForRecord(record));
             return height;
         }
 
         public List<Record> AlphaCut(double aMinivalValue)
         {
-            Debug.Assert(aMinivalValue >= 0 && aMinivalValue<= 100);
-            List<Record> filteredElements = elements.Where(record => GetAffilationForRecord(record) > aMinivalValue).ToList();
+            Debug.Assert(aMinivalValue >= 0 && aMinivalValue <= 100);
+            List<Record> filteredElements = elements.Elements.Where(record => GetAffilationForRecord(record) > aMinivalValue).ToList();
             return filteredElements;
         }
+
+        public bool IsEmpty()
+        {
+            return elements.Elements.All(record => GetAffilationForRecord(record) == 0);
+        }
+        public double GetAffilationComplementForRecord(Record item)
+        {
+            return 1 - GetAffilationForRecord(item);
+        }
+        #endregion
 
         public double CardinalNumber()
         {
@@ -116,18 +128,11 @@ namespace Toolkit
             return sum;
         }
 
-        public bool IsEmpty()
-        {
-            return elements.All(record => GetAffilationForRecord(record) == 0);
-        }
-
-
-        // sprawdza obecność sumaryzatora
         public bool HasOr
         {
             get
             {
-                var current = linguisticVariablesGroup;
+                LinguisticVariablesGroup current = linguisticVariablesGroup;
                 while (current != null)
                 {
                     if (current.RelationName == "lub")
@@ -151,7 +156,7 @@ namespace Toolkit
                 RelationToChild = list => list.Min(),
                 RelationName = "i"
             };
-            return new FuzzySet(first.elements, group);
+            return new FuzzySet(first.elements.Elements, group);
         }
 
         // operator | reprezenujący operację OR
@@ -164,7 +169,7 @@ namespace Toolkit
                 RelationToChild = list => list.Max(),
                 RelationName = "lub"
             };
-            return new FuzzySet(first.elements, group);
+            return new FuzzySet(first.elements.Elements, group);
         }
 
         // reprezentacja słowna FuzzySetu, a tak właściwie to podsumowanie lingwistyczne
@@ -209,31 +214,31 @@ namespace Toolkit
             {
 
                 // Meassure T_1
-                CardinalNumber() / elements.Count
+                CardinalNumber() / elements.Elements.Count
             };
 
             // Meassure T_2
             double t2 = 1d;
             var allVariables = linguisticVariablesGroup.Flatten();
-            foreach (var variable in allVariables)
+            foreach (LinguisticVariable variable in allVariables)
             {
-                var tempSet = new FuzzySet(elements, variable);
-                var factor = tempSet.Support().Count / (double)elements.Count;
+                FuzzySet tempSet = new FuzzySet(elements.Elements, variable);
+                double factor = tempSet.Support().Count / (double)elements.Elements.Count;
                 t2 *= factor;
             }
 
             degrees.Add(1 - Math.Pow(t2, t2 / allVariables.Count));
 
             // Meassure T_3
-            double t3 = Support().Count() / (double)elements.Count;
+            double t3 = Support().Count() / (double)elements.Elements.Count;
             degrees.Add(t3);
 
             // Meassure T_4
             double t4 = 1d;
             foreach (var variable in allVariables)
             {
-                var tempSet = new FuzzySet(elements, variable);
-                t4 *= tempSet.Support().Count() / (double)elements.Count - t3;
+                var tempSet = new FuzzySet(elements.Elements, variable);
+                t4 *= tempSet.Support().Count() / (double)elements.Elements.Count - t3;
             }
 
             degrees.Add(Math.Abs(t4));
@@ -244,7 +249,7 @@ namespace Toolkit
             // Meassure T_6
             var quantifierElements = quantifier.Parameters.Last() -
                                      quantifier.Parameters.First();
-            degrees.Add(1 - quantifierElements / elements.Count);
+            degrees.Add(1 - quantifierElements / elements.Elements.Count);
 
             // Meassure T_7
             var quantifierSet = Enumerable.Range((int)quantifier.Parameters.First(),
@@ -254,16 +259,16 @@ namespace Toolkit
 
             // Meassure T_8
             var sc = Support().Count();
-            var f = 1 + elements.Count / (double)(allElements ?? elements).Count;
+            var f = 1 + elements.Elements.Count / (double)(allElements.Elements ?? elements.Elements).Count;
             degrees.Add(quantifier.MembershipFunction.GetMembership(sc * f));
 
             if (Qualificator != null)
             {
                 // Meassure T_9
-                degrees.Add(1 - Qualificator.Support().Count / (double)allElements.Count);
+                degrees.Add(1 - Qualificator.Support().Count / (double)allElements.Elements.Count);
 
                 // Meassure T_10
-                degrees.Add(1 - Qualificator.CardinalNumber() / allElements.Count);
+                degrees.Add(1 - Qualificator.CardinalNumber() / allElements.Elements.Count);
 
                 // Meassure T_11
                 degrees.Add(2 * Math.Pow(0.5, Qualificator.linguisticVariablesGroup.Flatten().Count));

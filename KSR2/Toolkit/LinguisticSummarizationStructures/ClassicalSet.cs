@@ -12,6 +12,9 @@ namespace Toolkit.LinguisticSummarizationStructures
         {
             Elements = aElements;
         }
+        public ClassicalSet()
+        {
+        }
 
         public List<T> Complement(List<T> aUniverse)
         {
