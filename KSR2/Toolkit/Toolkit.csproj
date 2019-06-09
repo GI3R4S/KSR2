@@ -65,7 +65,7 @@
     <Compile Include="LinguisticSummarizationStructures\ClassicalSet.cs" />
     <Compile Include="LinguisticSummarizationStructures\FuzzySet.cs" />
     <Compile Include="LinguisticSummarizationStructures\LinguisticVariable.cs" />
-    <Compile Include="LinguisticSummarizationStructures\LinguisticVariableSerializer.cs" />
+    <Compile Include="ObjectModel\LinguisticVariableSerializer.cs" />
     <Compile Include="ObjectModel\Record.cs" />
     <Compile Include="LinguisticSummarizationStructures\SumarizationResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

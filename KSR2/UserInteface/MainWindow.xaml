@@ -41,6 +41,8 @@
             </ListView.ItemTemplate>
         </ListView>
         <Button Content="Zapisz do pliku" FontSize="24" x:Name="Button_Save"  HorizontalAlignment="Left" Margin="374,-67,0,0" VerticalAlignment="Top" Width="770" Height="62" Click="Button_Click" Grid.Column="1"/>
-        <Button Content="Generuj podsumowania" FontSize="24" x:Name="Generate_Summarizations"  HorizontalAlignment="Left" Margin="30,-67,0,0" VerticalAlignment="Top" Width="770" Height="62" Grid.ColumnSpan="2" Click="Generate_Summarizations_Click"/>
+        <Button Content="Generuj podsumowania" FontSize="24" x:Name="Generate_Summarizations"  HorizontalAlignment="Left" Margin="30,-67,0,0" VerticalAlignment="Top" Width="642" Height="62" Grid.ColumnSpan="2" Click="Generate_Summarizations_Click"/>
+        <CheckBox x:Name="CB_All"  Content="T1-T11" Grid.Column="1" HorizontalAlignment="Left" Margin="241,-38,0,0" VerticalAlignment="Top" IsChecked="True" Click="CB_All_Click"/>
+        <CheckBox x:Name="CB_Part" Content="T1-T5"  Grid.Column="1" HorizontalAlignment="Left" Margin="241,-58,0,0" VerticalAlignment="Top" Click="CB_Part_Click"/>
     </Grid>
 </Window>

@@ -1,8 +1,6 @@
 ﻿using Microsoft.Win32;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using Toolkit;
 
@@ -10,7 +8,7 @@ namespace UserInteface
 {
     public partial class MainWindow : Window
     {
-        List<SummarizationResult> Summarizations { get; set; } = new List<SummarizationResult>();
+        private List<SummarizationResult> Summarizations { get; set; } = new List<SummarizationResult>();
 
         public MainWindow()
         {
@@ -27,7 +25,7 @@ namespace UserInteface
             #endregion
 
             List<FuzzySet> FuzzySetsWithoutQualificators = new List<FuzzySet>();
-            foreach(LinguisticVariable summarizator in summarizators)
+            foreach (LinguisticVariable summarizator in summarizators)
             {
                 FuzzySetsWithoutQualificators.Add(new FuzzySet(data, summarizator));
             }
@@ -45,7 +43,7 @@ namespace UserInteface
             }
 
             List<FuzzySet> Qualificators = new List<FuzzySet>();
-            foreach(LinguisticVariable linguisticVariable in qualificators)
+            foreach (LinguisticVariable linguisticVariable in qualificators)
             {
                 Qualificators.Add(new FuzzySet(data, linguisticVariable));
             }
@@ -58,16 +56,18 @@ namespace UserInteface
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.AddExtension = true;
-            saveFileDialog.DefaultExt = "txt";
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                AddExtension = true,
+                DefaultExt = "txt"
+            };
 
             var res = saveFileDialog.ShowDialog();
-            if(res.HasValue && res.Value)
+            if (res.HasValue && res.Value)
             {
                 using (StreamWriter streamWriter = new StreamWriter(saveFileDialog.FileName))
                 {
-                    foreach(SummarizationResult summarizationResult in Summarizations)
+                    foreach (SummarizationResult summarizationResult in Summarizations)
                     {
                         streamWriter.WriteLine("Best summarization:\r\n\t-" + summarizationResult.BestSummarization + "\r\n\r\nAll summarizations:\r\n");
                         int i = 1;
@@ -86,9 +86,9 @@ namespace UserInteface
         {
             foreach (FuzzySet fuzzySet in aFuzzySets)
             {
-                if(aQualificators == null)
+                if (aQualificators == null)
                 {
-                        Process(fuzzySet, aQuantifiers);
+                    Process(fuzzySet, aQuantifiers);
                 }
                 else
                 {
@@ -110,7 +110,7 @@ namespace UserInteface
             foreach (LinguisticVariable quantifier in aQuantifiers)
             {
                 string summarization = "";
-                double degreeOfTruth = set.GetDegreeOfTruth(quantifier, ref summarization);
+                double degreeOfTruth = set.GetDegreeOfTruth(quantifier, ref summarization, CB_All.IsChecked.Value);
                 if (degreeOfTruth > quality)
                 {
                     bestResult = summarization;
@@ -128,6 +128,18 @@ namespace UserInteface
         private void Generate_Summarizations_Click(object sender, RoutedEventArgs e)
         {
             GenerateSummarizations();
+        }
+
+        private void CB_All_Click(object sender, RoutedEventArgs e)
+        {
+            CB_All.IsChecked = true;
+            CB_Part.IsChecked = false;
+        }
+
+        private void CB_Part_Click(object sender, RoutedEventArgs e)
+        {
+            CB_All.IsChecked = false;
+            CB_Part.IsChecked = true;
         }
     }
 
