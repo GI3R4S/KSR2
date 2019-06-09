@@ -5,7 +5,7 @@
 		<MembershipFunctionType>TriangularFunction</MembershipFunctionType>
 		<Parameters>
 			<double>25</double>
-			<double>100</double>
+			<double>90</double>
 			<double>100</double>
 		</Parameters>
 		<MemberToExtract>WindGustSpeed</MemberToExtract>
@@ -16,7 +16,7 @@
 		<MembershipFunctionType>TriangularFunction</MembershipFunctionType>
 		<Parameters>
 			<double>0</double>
-			<double>0</double>
+			<double>5</double>
 			<double>30</double>
 		</Parameters>
 		<MemberToExtract>WindGustSpeed</MemberToExtract>
@@ -39,7 +39,7 @@
 		<MembershipFunctionType>TriangularFunction</MembershipFunctionType>
 		<Parameters>
 			<double>0</double>
-			<double>0</double>
+			<double>1</double>
 			<double>10</double>
 		</Parameters>
 		<MemberToExtract>RiskMm</MemberToExtract>

@@ -15,116 +15,45 @@ namespace UserInteface
         public MainWindow()
         {
             InitializeComponent();
-            OnLoaded();
         }
 
-        private void OnLoaded()
+        private void GenerateSummarizations()
         {
             #region Ładowanie Plików
             List<Record> data = XlsxReader.ReadXlsx("..\\..\\..\\Resources\\weatherAUS.xlsx");
-            List<LinguisticVariable> variables = LinguisticVariableSerializer.Deserialize("..\\..\\..\\Resources\\linguisticVariables.xml");
-            List<LinguisticVariable> quantifiers = LinguisticVariableSerializer.Deserialize("..\\..\\..\\Resources\\linguisticQuantifiers.xml");
-            List<LinguisticVariable> qualificators = LinguisticVariableSerializer.Deserialize("..\\..\\..\\Resources\\linguisticQualificators.xml");
+            List<LinguisticVariable> summarizators = LinguisticVariableSerializer.Deserialize("..\\..\\..\\Resources\\Summarizators.xml");
+            List<LinguisticVariable> quantifiers = LinguisticVariableSerializer.Deserialize("..\\..\\..\\Resources\\Quantifiers.xml");
+            List<LinguisticVariable> qualificators = LinguisticVariableSerializer.Deserialize("..\\..\\..\\Resources\\Qualificators.xml");
             #endregion
 
-            //List<FuzzySet> fuzzySets = new List<FuzzySet>();
-            //foreach(var variable in variables)
-            //{
-            //    fuzzySets.Add(new FuzzySet(data, variable));
-            //}
-
-            var groupsOfLinguisticVariables = variables.GroupBy(variable => variable.MemberToExtract).ToList();
-            List<FuzzySet> fuzzySets = new List<FuzzySet>();
-
-            #region Create fuzzy sets from variables
-            foreach (var group in groupsOfLinguisticVariables)
+            List<FuzzySet> FuzzySetsWithoutQualificators = new List<FuzzySet>();
+            foreach(LinguisticVariable summarizator in summarizators)
             {
-                var movedGroupings = new List<Tuple<string, List<LinguisticVariable>>>();
-                movedGroupings.Add(new Tuple<string, List<LinguisticVariable>>(group.Key, group.ToList()));
-
-                movedGroupings.AddRange(groupsOfLinguisticVariables.Where(linguisticVariables => linguisticVariables != group)
-                    .Select(g => new Tuple<string, List<LinguisticVariable>>(g.Key, g.ToList())));
-                fuzzySets = fuzzySets.Concat(GetSets(data, movedGroupings)).ToList();
+                FuzzySetsWithoutQualificators.Add(new FuzzySet(data, summarizator));
             }
-            #endregion
 
-
-            List<double> qualities = new List<double>();
-            foreach (FuzzySet fuzzySet in fuzzySets)
+            List<FuzzySet> FuzzySetsAndQualificators = new List<FuzzySet>();
+            foreach (LinguisticVariable summarizator in summarizators)
             {
-                Process(fuzzySet);
-                foreach(LinguisticVariable qualificator in qualificators)
-                {
-                    fuzzySet.Qualificator = new FuzzySet(data, qualificator);
-                }
-
-                Process(fuzzySet);
-
-                void Process(FuzzySet set)
-                {
-                    SummarizationResult summarizationResult = new SummarizationResult();
-                    string bestResult = "";
-                    double quality = 0;
-                    foreach (var quantifier in quantifiers)
-                    {
-                        double degreeOfTruth = set.DegreeOfTruth(quantifier);
-                        string summarization = $"{quantifier.Name} dni {set} [Jakość: {degreeOfTruth:N3}]";
-                        if (degreeOfTruth > quality)
-                        {
-                            bestResult = summarization;
-                            quality = degreeOfTruth;
-                        }
-
-                        summarizationResult.AllSummarizations.Add(summarization);
-                    }
-                    qualities.Add(quality);
-                    summarizationResult.BestSummarization = bestResult;
-                    Summarizations.Add(summarizationResult);
-                }
+                FuzzySetsAndQualificators.Add(new FuzzySet(data, summarizator, "AND"));
             }
+
+            List<FuzzySet> FuzzySetsOrQualificators = new List<FuzzySet>();
+            foreach (LinguisticVariable summarizator in summarizators)
+            {
+                FuzzySetsOrQualificators.Add(new FuzzySet(data, summarizator, "OR"));
+            }
+
+            List<FuzzySet> Qualificators = new List<FuzzySet>();
+            foreach(LinguisticVariable linguisticVariable in qualificators)
+            {
+                Qualificators.Add(new FuzzySet(data, linguisticVariable));
+            }
+            GenerateSummarizations(FuzzySetsWithoutQualificators, quantifiers);
+            GenerateSummarizations(FuzzySetsAndQualificators, quantifiers, Qualificators);
+            GenerateSummarizations(FuzzySetsOrQualificators, quantifiers, Qualificators);
+
             Results.ItemsSource = Summarizations;
-        }
-
-        private List<FuzzySet> GetSets(List<Record> data,
-            List<Tuple<string, List<LinguisticVariable>>> vars)
-        {
-            List<FuzzySet> fuzzySets = new List<FuzzySet>();
-            int i = 1;
-            vars = vars.Take(1).ToList();
-            foreach (var group in vars)
-            {
-                if (!fuzzySets.Any())
-                {
-                    foreach (var linguisticVariable in group.Item2)
-                    {
-                        fuzzySets.Add(new FuzzySet(data, linguisticVariable));
-                    }
-                }
-                else
-                {
-                    List<FuzzySet> combo = new List<FuzzySet>();
-                    foreach (FuzzySet fuzzySet in fuzzySets)
-                    {
-                        var j = 0;
-                        foreach (LinguisticVariable linguisticVariable in group.Item2)
-                        {
-                            if (j < fuzzySets.Count - 1 || fuzzySet.HasOr)
-                            {
-                                combo.Add(fuzzySet | new FuzzySet(data, linguisticVariable));
-                            }
-                            else
-                            {
-                                combo.Add(fuzzySet & new FuzzySet(data, linguisticVariable));
-                            }
-
-                            j++;
-                        }
-                    }
-                    fuzzySets = combo;
-                }
-                i++;
-            }
-            return fuzzySets;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -152,6 +81,55 @@ namespace UserInteface
                 }
             }
         }
+
+        private void GenerateSummarizations(List<FuzzySet> aFuzzySets, List<LinguisticVariable> aQuantifiers, List<FuzzySet> aQualificators = null)
+        {
+            foreach (FuzzySet fuzzySet in aFuzzySets)
+            {
+                if(aQualificators == null)
+                {
+                        Process(fuzzySet, aQuantifiers);
+                }
+                else
+                {
+                    foreach (FuzzySet qualifcator in aQualificators)
+                    {
+                        fuzzySet.Qualificator = qualifcator;
+                        Process(fuzzySet, aQuantifiers);
+                    }
+                }
+            }
+        }
+
+        private void Process(FuzzySet set, List<LinguisticVariable> aQuantifiers)
+        {
+            List<double> qualities = new List<double>();
+            SummarizationResult summarizationResult = new SummarizationResult();
+            string bestResult = "";
+            double quality = 0;
+            foreach (LinguisticVariable quantifier in aQuantifiers)
+            {
+                string summarization = "";
+                double degreeOfTruth = set.GetDegreeOfTruth(quantifier, ref summarization);
+                if (degreeOfTruth > quality)
+                {
+                    bestResult = summarization;
+                    quality = degreeOfTruth;
+                }
+
+                summarizationResult.AllSummarizations.Add(summarization);
+            }
+            qualities.Add(quality);
+            summarizationResult.BestSummarization = bestResult;
+            Summarizations.Add(summarizationResult);
+        }
+
+
+        private void Generate_Summarizations_Click(object sender, RoutedEventArgs e)
+        {
+            GenerateSummarizations();
+        }
     }
+
 
 }

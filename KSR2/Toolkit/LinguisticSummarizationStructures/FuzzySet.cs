@@ -8,113 +8,75 @@ namespace Toolkit
 {
     public class FuzzySet
     {
-        private LinguisticVariablesGroup linguisticVariablesGroup;
-        private Dictionary<Record, double> membershipMap = new Dictionary<Record, double>();
-        private ClassicalSet<Record> allElements = new ClassicalSet<Record>();
-        private ClassicalSet<Record> elements = new ClassicalSet<Record>();
-        private FuzzySet qualificator;
+        private Dictionary<Record, double> ResultMembership = new Dictionary<Record, double>();
 
+        private Dictionary<Record, double> LocalAllRecordsMembership = new Dictionary<Record, double>();
+        private ClassicalSet<Record> AllRecords = new ClassicalSet<Record>();
+        private ClassicalSet<Record> FilteredRecords = new ClassicalSet<Record>();
+        public LinguisticVariable LinguisticVariable { get; set; } = new LinguisticVariable();
 
-        // konstruktor FuzzySet - przyjmuje listę rekordów oraz jedną zmienną lingwistyczną
-        public FuzzySet(List<Record> aRecords, LinguisticVariable aLinguisticVariable)
+        public FuzzySet Qualificator;
+
+        public Func<List<double>, double> OperatorFunction { get; set; }
+        public string RelationType { get; set; } = "";
+
+        public FuzzySet(List<Record> aRecords, LinguisticVariable aLinguisticVariable, string aRelationType = "")
         {
-            elements.Elements = aRecords.ToList();
-            linguisticVariablesGroup =
-                new LinguisticVariablesGroup
-                {
-                    LinguisticVariable = aLinguisticVariable
-                };
-        }
+            AllRecords = new ClassicalSet<Record>() { Elements = aRecords };
+            LinguisticVariable = aLinguisticVariable;
+            RelationType = aRelationType;
 
-        // konstruktor FuzzySet - przyjmuje listę rekordów oraz grupę zmiennych lingwistycznych
-        private FuzzySet(List<Record> aRecords, LinguisticVariablesGroup aLinguisticVariablesGroup)
-        {
-            aRecords = aRecords.ToList();
-            linguisticVariablesGroup = aLinguisticVariablesGroup;
-        }
-
-        // właściwość kwalifikatora
-        public FuzzySet Qualificator
-        {
-            get
+            foreach (Record record in AllRecords.Elements)
             {
-                return qualificator;
+                GetAffilationForRecord(record);
             }
-            set
-            {
-                qualificator = value;
-                allElements.Elements = elements.Elements.ToList();
-
-                List<Record> support = qualificator.Support();
-                elements.Elements = support;
-            }
+            FilteredRecords.Elements = Support();
         }
 
-        // zwraca stopień przynależności do zbioru rozmytego dla zadanego rekordu - operator [] dla FuzzySet
+
         public double GetAffilationForRecord(Record item)
         {
-            // jeśli wartość stopnia przynależnci była już obliczona
-            if (membershipMap.ContainsKey(item))
+            if (LocalAllRecordsMembership.ContainsKey(item))
             {
-                return membershipMap[item];
+                return LocalAllRecordsMembership[item];
             }
 
-            // jeśli wartość stopnia przynależności nie była jeszcze obliczana
-            double membership = GetMembership(linguisticVariablesGroup);
-            membershipMap[item] = membership;
+            Debug.Assert(LinguisticVariable.IsQuantifier() == false);
+            double membership = LinguisticVariable.MembershipFunction.GetMembership(LinguisticVariable.Extractor(item));
+
+            LocalAllRecordsMembership[item] = membership;
             return membership;
-
-            //definicja rekurencji obliczającej stopień przynależności.
-            double GetMembership(LinguisticVariablesGroup group)
-            {
-                // jeśli dziecko istnieje to oblicz przynależnśc rekurencyjnie dla pozostałych potomków
-                if (group.Child != null)
-                {
-                    double childMembership = GetMembership(group.Child);
-                    return group.RelationToChild(new List<double> { childMembership, GetOwnMembership() });
-                }
-
-                // po osiągnięciu maksymalnej głębokości rekurencji:
-                return GetOwnMembership();
-
-                double GetOwnMembership()
-                {
-                    return group.LinguisticVariable.MembershipFunction.GetMembership(group.LinguisticVariable.IsQuantifier()
-                        ? group.LinguisticVariable.MembershipFunction.GetMembership(elements.Elements.Count)
-                        : group.LinguisticVariable.Extractor(item));
-                }
-            }
         }
 
         public List<Record> Support()
         {
-            List<Record> filteredElements = elements.Elements.Where(record => GetAffilationForRecord(record) > 0).ToList();
+            List<Record> filteredElements = AllRecords.Elements.Where(record => GetAffilationForRecord(record) > 0).ToList();
             return filteredElements;
         }
 
         #region Unused
         public List<Record> Core()
         {
-            List<Record> filteredElements = elements.Elements.Where(record => GetAffilationForRecord(record) > 1).ToList();
+            List<Record> filteredElements = Support().Where(record => GetAffilationForRecord(record) > 1).ToList();
             return filteredElements;
         }
 
         public double Height()
         {
-            double height = elements.Elements.Max(record => GetAffilationForRecord(record));
+            double height = Support().Max(record => GetAffilationForRecord(record));
             return height;
         }
 
         public List<Record> AlphaCut(double aMinivalValue)
         {
             Debug.Assert(aMinivalValue >= 0 && aMinivalValue <= 100);
-            List<Record> filteredElements = elements.Elements.Where(record => GetAffilationForRecord(record) > aMinivalValue).ToList();
+            List<Record> filteredElements = Support().Where(record => GetAffilationForRecord(record) > aMinivalValue).ToList();
             return filteredElements;
         }
 
         public bool IsEmpty()
         {
-            return elements.Elements.All(record => GetAffilationForRecord(record) == 0);
+            return Support().All(record => GetAffilationForRecord(record) == 0);
         }
         public double GetAffilationComplementForRecord(Record item)
         {
@@ -122,159 +84,187 @@ namespace Toolkit
         }
         #endregion
 
-        public double CardinalNumber()
+        private void RefreshMap()
         {
-            double sum = membershipMap.Sum(pair => pair.Value);
-            return sum;
+            foreach (Record record in AllRecords.Elements)
+            {
+                GetAffilationForRecord(record);
+            }
         }
-
-        public bool HasOr
+        public double LocalCardinalNumber
         {
             get
             {
-                LinguisticVariablesGroup current = linguisticVariablesGroup;
-                while (current != null)
+                RefreshMap();
+                return LocalAllRecordsMembership.Sum(pair => pair.Value);
+            }
+        }
+
+        public double GlobalCardinalNumber
+        {
+            get
+            {
+                return ResultMembership.Sum(pair => pair.Value);
+            }
+        }
+
+        public double GetDegreeOfTruth(LinguisticVariable quantifier, ref string aSummarization)
+        {
+            List<double> degrees = new List<double>();
+            if (RelationType.Equals("AND") || RelationType.Equals("OR"))
+            {
+                for (int i = 0; i < AllRecords.Elements.Count; i++)
                 {
-                    if (current.RelationName == "lub")
+
+                    if (RelationType == "AND")
                     {
-                        return true;
+                        double firstAffilation = GetAffilationForRecord(AllRecords.Elements[i]);
+                        double secondAffilation = Qualificator.GetAffilationForRecord(AllRecords.Elements[i]);
+                        if (firstAffilation > 1 || secondAffilation > 1)
+                        {
+
+                        }
+                        ResultMembership.Add(AllRecords.Elements[i], firstAffilation > secondAffilation ? secondAffilation : firstAffilation);
                     }
-                    current = current.Child;
+                    else if (RelationType == "OR")
+                    {
+                        double firstAffilation = GetAffilationForRecord(AllRecords.Elements[i]);
+                        double secondAffilation = Qualificator.GetAffilationForRecord(AllRecords.Elements[i]);
+
+                        ResultMembership.Add(AllRecords.Elements[i], firstAffilation > secondAffilation ? firstAffilation : secondAffilation);
+                    }
                 }
-
-                return false;
             }
-        }
-
-        // operator & reprezenujący operację AND
-        public static FuzzySet operator &(FuzzySet first, FuzzySet other)
-        {
-            var group = new LinguisticVariablesGroup
-            {
-                LinguisticVariable = other.linguisticVariablesGroup.LinguisticVariable,
-                Child = first.linguisticVariablesGroup,
-                RelationToChild = list => list.Min(),
-                RelationName = "i"
-            };
-            return new FuzzySet(first.elements.Elements, group);
-        }
-
-        // operator | reprezenujący operację OR
-        public static FuzzySet operator |(FuzzySet first, FuzzySet other)
-        {
-            var group = new LinguisticVariablesGroup
-            {
-                LinguisticVariable = other.linguisticVariablesGroup.LinguisticVariable,
-                Child = first.linguisticVariablesGroup,
-                RelationToChild = list => list.Max(),
-                RelationName = "lub"
-            };
-            return new FuzzySet(first.elements.Elements, group);
-        }
-
-        // reprezentacja słowna FuzzySetu, a tak właściwie to podsumowanie lingwistyczne
-        public override string ToString()
-        {
-            string output = "";
-
-            // dodaj środkową część zdania
-            if (Qualificator != null)
-            {
-                output += $"będących {Qualificator.linguisticVariablesGroup.LinguisticVariable.Name} wystąpiły ";
-            }
-            // dodaj tylko spację
             else
             {
-                output = " ";
+                RefreshMap();
+                ResultMembership = LocalAllRecordsMembership;
             }
 
-            LinguisticVariablesGroup currentGroup = linguisticVariablesGroup;
-            //iteruj po grupie zmiennych lingwistycznych
-            while (currentGroup != null)
+
+
+            double supportCount = Support().Count;
+            double allRecordsCount = AllRecords.Elements.Count;
+            double qualificatorSupportCount = Qualificator != null ? Qualificator.Support().Count : 0;
+            double qualificatorAllRecordsCount = Qualificator != null ? Qualificator.AllRecords.Elements.Count : 0;
+
+            // T_1
+            double r = 0;
+            if (Qualificator == null)
             {
-                output += $"{currentGroup.LinguisticVariable.Name} ";
-                //zejdź poziom niżej do dziecka
-                if (currentGroup.Child != null)
-                {
-                    output += $"{currentGroup.RelationName} ";
-                    currentGroup = currentGroup.Child;
-                }
-                else
-                {
-                    break;
-                }
+                r = LocalCardinalNumber;
             }
-
-            return output;
-        }
-
-        public double DegreeOfTruth(LinguisticVariable quantifier)
-        {
-            List<double> degrees = new List<double>
+            else
             {
-
-                // Meassure T_1
-                CardinalNumber() / elements.Elements.Count
-            };
-
-            // Meassure T_2
-            double t2 = 1d;
-            var allVariables = linguisticVariablesGroup.Flatten();
-            foreach (LinguisticVariable variable in allVariables)
-            {
-                FuzzySet tempSet = new FuzzySet(elements.Elements, variable);
-                double factor = tempSet.Support().Count / (double)elements.Elements.Count;
-                t2 *= factor;
+                r = GlobalCardinalNumber / LocalCardinalNumber;
             }
+            double t1 = quantifier.MembershipFunction.GetMembership(r) / Support().Count;
+            degrees.Add(t1);
 
-            degrees.Add(1 - Math.Pow(t2, t2 / allVariables.Count));
+            // T_2
 
-            // Meassure T_3
-            double t3 = Support().Count() / (double)elements.Elements.Count;
-            degrees.Add(t3);
-
-            // Meassure T_4
-            double t4 = 1d;
-            foreach (var variable in allVariables)
+            double t2 = 1;
+            if (Qualificator == null)
             {
-                var tempSet = new FuzzySet(elements.Elements, variable);
-                t4 *= tempSet.Support().Count() / (double)elements.Elements.Count - t3;
+                t2 = t2 - supportCount / allRecordsCount;
             }
+            else
+            {
+                t2 = t2 - Math.Pow((supportCount / allRecordsCount * qualificatorSupportCount / qualificatorAllRecordsCount), 1 / 2);
+            }
+            degrees.Add(t2);
 
-            degrees.Add(Math.Abs(t4));
-
-            // Meassure T_5
-            degrees.Add(2 * Math.Pow(0.5, allVariables.Count));
-
-            // Meassure T_6
-            var quantifierElements = quantifier.Parameters.Last() -
-                                     quantifier.Parameters.First();
-            degrees.Add(1 - quantifierElements / elements.Elements.Count);
-
-            // Meassure T_7
-            var quantifierSet = Enumerable.Range((int)quantifier.Parameters.First(),
-                (int)quantifier.Parameters.Last() - 1);
-            var quantifierCardinalNumber = quantifierSet.Sum(i => quantifier.MembershipFunction.GetMembership(i));
-            degrees.Add(Math.Min(1, quantifierCardinalNumber / quantifierElements));
-
-            // Meassure T_8
-            var sc = Support().Count();
-            var f = 1 + elements.Elements.Count / (double)(allElements.Elements ?? elements.Elements).Count;
-            degrees.Add(quantifier.MembershipFunction.GetMembership(sc * f));
 
             if (Qualificator != null)
             {
-                // Meassure T_9
-                degrees.Add(1 - Qualificator.Support().Count / (double)allElements.Elements.Count);
-
-                // Meassure T_10
-                degrees.Add(1 - Qualificator.CardinalNumber() / allElements.Elements.Count);
-
-                // Meassure T_11
-                degrees.Add(2 * Math.Pow(0.5, Qualificator.linguisticVariablesGroup.Flatten().Count));
+                //T_3
+                var xd = Qualificator.Support();
+                int intersectCount = new ClassicalSet<Record>(Support()).Intersect(xd).Count;
+                double t3 = intersectCount / qualificatorSupportCount;
+                degrees.Add(t3);
             }
 
-            return degrees.Average();
+            // T_4
+
+            double t4 = 0;
+            double r1 = supportCount / allRecordsCount;
+            if (Qualificator != null)
+            {
+                r1 *= qualificatorSupportCount / qualificatorAllRecordsCount;
+            }
+
+            t4 = r1;
+            if (degrees.Count == 3)
+            {
+                t4 = Math.Abs(r1 - degrees[2]);
+            }
+
+            degrees.Add(t4);
+
+            // T_5
+            double t5 = 2 * Math.Pow(0.5, Qualificator == null ? 1 : 2);
+            degrees.Add(t5);
+
+
+            // T_6
+            double distance = quantifier.Parameters.Last() -
+                                     quantifier.Parameters.First();
+            degrees.Add(1 - distance / AllRecords.Elements.Count);
+
+            // T_7
+            var quantifierSet = Enumerable.Range((int)quantifier.Parameters.First(),
+                (int)quantifier.Parameters.Last() - 1);
+            double quantifierCardinalNumber = quantifierSet.Sum(i => quantifier.MembershipFunction.GetMembership(i));
+            degrees.Add(Math.Min(1, quantifierCardinalNumber / distance));
+
+            // T_8
+
+            double t8 = supportCount / allRecordsCount;
+            if (Qualificator != null)
+            {
+                t8 *= qualificatorSupportCount / qualificatorAllRecordsCount;
+            }
+            degrees.Add(t8);
+
+            if (Qualificator != null)
+            {
+                // T_9
+                double t9 = 1 - (qualificatorSupportCount / allRecordsCount);
+                degrees.Add(t9);
+
+
+                // Meassure T_10
+                double t10 = 1 - qualificatorSupportCount / qualificatorAllRecordsCount;
+                degrees.Add(t10);
+
+                // Meassure T_11
+                degrees.Add(2 * Math.Pow(0.5, 1));
+            }
+
+
+            if (Qualificator == null)
+            {
+                aSummarization = $"{quantifier.Name} wpisów wykazywało następujący parametr: {LinguisticVariable.Name} [{degrees.Average():N3}]";
+            }
+            else
+            {
+                if (RelationType == "AND")
+                {
+                    aSummarization = $"{quantifier.Name} wpisów mających parametr: {Qualificator.LinguisticVariable.Name} wykazywało następujący parametr: {LinguisticVariable.Name} [{degrees.Average():N3}]";
+                }
+                if (RelationType == "OR")
+                {
+                    aSummarization = $"{quantifier.Name} wpisów miało parametr: {Qualificator.LinguisticVariable.Name} lub parametr: {LinguisticVariable.Name} [{degrees.Average():N3}]";
+                }
+            }
+            if (degrees.Any(val => double.IsNaN(val) || double.IsInfinity(val)))
+            {
+            }
+            ResultMembership.Clear();
+            double avg = degrees.Average();
+
+            return avg;
         }
+
     }
 }

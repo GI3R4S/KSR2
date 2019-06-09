@@ -24,20 +24,24 @@ namespace Toolkit.AffiliationFunctions
             double c = Parameters[2];
             double d = Parameters[3];
 
+            double val = 0;
+
             if (x > b && x <= c)
             {
-                return 1;
+                val = 1;
             }
             else if (x > a && x <= b)
             {
-                return (x - a) / (b - a);
+                val = (x - a) / (b - a);
             }
             else if (x > c && x <= d)
             {
-                return (d - x) / (d - c);
+                val = (d - x) / (d - c);
             }
             else
-                return 0;
+                val = 0;
+
+            return val;
         }
     }
 }

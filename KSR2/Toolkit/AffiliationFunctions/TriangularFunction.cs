@@ -8,10 +8,6 @@ namespace Toolkit.AffiliationFunctions
     {
         public TriangularFunction(List<double> aArgs)
         {
-            if (aArgs.Count != 3)
-            {
-                Console.Write("Alert!!!");
-            }
             Debug.Assert(aArgs.Count == 3);
             Parameters = aArgs;
         }
@@ -28,16 +24,24 @@ namespace Toolkit.AffiliationFunctions
             double b = Parameters[1];
             double c = Parameters[2];
 
+            double val = 0;
+
             if (x > a && x <= b)
             {
-                return (x - a) / (b - a);
+                val = (x - a) / (b - a);
             }
             else if (x > b && x <= c)
             {
-                return (c - x) / (c - b);
+                val = (c - x) / (c - b);
             }
             else
-                return 0;
+                val = 0;
+            if(val > 1)
+            {
+
+            }
+            return val;
+
         }
 
 

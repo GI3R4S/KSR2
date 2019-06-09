@@ -44,7 +44,7 @@
   </LinguisticVariable>-->
 
   <LinguisticVariable>
-    <Name>1 na 10</Name>
+    <Name>Około 10%</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
       <double>0</double>
@@ -64,7 +64,7 @@
     <MemberToExtract></MemberToExtract>
   </LinguisticVariable>-->
   <LinguisticVariable>
-    <Name>3/10</Name>
+    <Name>Około 30% </Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
       <double>11600</double>
@@ -104,7 +104,7 @@
     <MemberToExtract></MemberToExtract>
   </LinguisticVariable>-->
   <LinguisticVariable>
-    <Name>około 70 %</Name>
+    <Name>Około 70 %</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
       <double>34800</double>
@@ -124,7 +124,7 @@
     <MemberToExtract></MemberToExtract>
   </LinguisticVariable>-->
   <LinguisticVariable>
-    <Name>około 90% </Name>
+    <Name>Około 90% </Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
       <double>46400</double>

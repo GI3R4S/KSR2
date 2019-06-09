@@ -5,7 +5,7 @@
 		<MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
 		<Parameters>
 			<double>0</double>
-			<double>0</double>
+			<double>1</double>
 			<double>3</double>
 			<double>5</double>
 		</Parameters>
@@ -29,7 +29,7 @@
 		<MembershipFunctionType>TriangularFunction</MembershipFunctionType>
 		<Parameters>
 			<double>20</double>
-			<double>250</double>
+			<double>240</double>
 			<double>250</double>
 		</Parameters>
 		<MemberToExtract>Rainfall</MemberToExtract>
@@ -41,7 +41,7 @@
 		<Parameters>
 			<double>30</double>
 			<double>50</double>
-			<double>200</double>
+			<double>190</double>
 			<double>200</double>
 		</Parameters>
 		<MemberToExtract>WindGustSpeed</MemberToExtract>
@@ -76,11 +76,11 @@
 		<MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
 		<Parameters>
 			<double>980</double>
-			<double>980</double>
+			<double>990</double>
 			<double>1008</double>
 			<double>1018</double>
 		</Parameters>
-		<MemberToExtract>WindGustSpeed</MemberToExtract>
+		<MemberToExtract>Pressure</MemberToExtract>
 	</LinguisticVariable>
 
 	<LinguisticVariable>
@@ -89,10 +89,10 @@
 		<Parameters>
 			<double>1008</double>
 			<double>1018</double>
-			<double>1040</double>
+			<double>1035</double>
 			<double>1040</double>
 		</Parameters>
-		<MemberToExtract>WindGustSpeed</MemberToExtract>
+		<MemberToExtract>Pressure</MemberToExtract>
 	</LinguisticVariable>
 
 	<LinguisticVariable>
@@ -103,7 +103,7 @@
 			<double>1013</double>
 			<double>1018</double>
 		</Parameters>
-		<MemberToExtract>Humidity</MemberToExtract>
+		<MemberToExtract>Pressure</MemberToExtract>
 	</LinguisticVariable>
 
 	<LinguisticVariable>
