@@ -12,10 +12,10 @@ namespace Toolkit
 
         private Dictionary<Record, double> LocalAllRecordsMembership = new Dictionary<Record, double>();
         private ClassicalSet<Record> AllRecords = new ClassicalSet<Record>();
-        private ClassicalSet<Record> FilteredRecords = new ClassicalSet<Record>();
         public LinguisticVariable LinguisticVariable { get; set; } = new LinguisticVariable();
 
         public FuzzySet Qualificator;
+        public FuzzySet AnotherSummarizator;
 
         public Func<List<double>, double> OperatorFunction { get; set; }
         public string RelationType { get; set; } = "";
@@ -30,7 +30,6 @@ namespace Toolkit
             {
                 GetAffilationForRecord(record);
             }
-            FilteredRecords.Elements = Support();
         }
 
 
@@ -111,34 +110,37 @@ namespace Toolkit
         public double GetDegreeOfTruth(LinguisticVariable quantifier, ref string aSummarization, bool aIsAllChosen)
         {
             List<double> degrees = new List<double>();
-            if (RelationType.Equals("AND") || RelationType.Equals("OR"))
+
+            if (AnotherSummarizator != null && (AnotherSummarizator.RelationType.Equals("AND") || AnotherSummarizator.RelationType.Equals("OR")))
             {
                 for (int i = 0; i < AllRecords.Elements.Count; i++)
                 {
 
-                    if (RelationType == "AND")
+                    if (AnotherSummarizator.RelationType == "AND")
                     {
                         double firstAffilation = GetAffilationForRecord(AllRecords.Elements[i]);
-                        double secondAffilation = Qualificator.GetAffilationForRecord(AllRecords.Elements[i]);
-                        if (firstAffilation > 1 || secondAffilation > 1)
-                        {
-
-                        }
+                        double secondAffilation = AnotherSummarizator.GetAffilationForRecord(AllRecords.Elements[i]);
                         ResultMembership.Add(AllRecords.Elements[i], firstAffilation > secondAffilation ? secondAffilation : firstAffilation);
                     }
-                    else if (RelationType == "OR")
+                    else if (AnotherSummarizator.RelationType == "OR")
                     {
                         double firstAffilation = GetAffilationForRecord(AllRecords.Elements[i]);
-                        double secondAffilation = Qualificator.GetAffilationForRecord(AllRecords.Elements[i]);
-
+                        double secondAffilation = AnotherSummarizator.GetAffilationForRecord(AllRecords.Elements[i]);
                         ResultMembership.Add(AllRecords.Elements[i], firstAffilation > secondAffilation ? firstAffilation : secondAffilation);
                     }
                 }
             }
-            else
+            else if (Qualificator != null)
             {
+                Qualificator.RefreshMap();
+                AllRecords = new ClassicalSet<Record>(Qualificator.Support());
+                LocalAllRecordsMembership.Clear();
                 RefreshMap();
-                ResultMembership = LocalAllRecordsMembership;
+
+            }
+            else if (Qualificator == null && AnotherSummarizator == null)
+            {
+
             }
 
 
@@ -147,24 +149,51 @@ namespace Toolkit
             double allRecordsCount = AllRecords.Elements.Count;
             double qualificatorSupportCount = Qualificator != null ? Qualificator.Support().Count : 0;
             double qualificatorAllRecordsCount = Qualificator != null ? Qualificator.AllRecords.Elements.Count : 0;
+            double anotherSummarizatorSupportCount = AnotherSummarizator != null ? AnotherSummarizator.Support().Count : 0;
+            double anotherSummarizatorAllRecordsCount = AnotherSummarizator != null ? AnotherSummarizator.AllRecords.Elements.Count : 0;
+            double complexSummarizationSupportCount;
+            double complexSummarizationCardinality;
 
+            if (AnotherSummarizator != null)
+            {
+                complexSummarizationSupportCount = ResultMembership.Count(p => p.Value != 0);
+                complexSummarizationCardinality = GlobalCardinalNumber;
+            }
             // T_1
             double r = 0;
-            if (Qualificator == null)
+            if (AnotherSummarizator != null && Qualificator == null)
+            {
+                r = GlobalCardinalNumber;
+            }
+            else if (AnotherSummarizator == null && Qualificator == null)
             {
                 r = LocalCardinalNumber;
             }
-            else
+            else if (Qualificator != null)
             {
-                r = GlobalCardinalNumber / LocalCardinalNumber;
+                for (int i = 0; i < AllRecords.Elements.Count; i++)
+                {
+                    Record currentRecord = AllRecords.Elements[i];
+
+                    double sumMem = GetAffilationForRecord(currentRecord);
+                    double qualMem = Qualificator.GetAffilationForRecord(currentRecord);
+                    r += sumMem > qualMem ? qualMem : sumMem;
+                }
             }
-            double membership = quantifier.MembershipFunction.GetMembership(r);
-            double t1 = membership / supportCount;
-            degrees.Add(t1);
+
+            r = quantifier.MembershipFunction.GetMembership(r);
+            degrees.Add(r);
 
             // T_2
             double t2 = 1;
-            t2 = t2 - supportCount / allRecordsCount;
+            if (AnotherSummarizator == null)
+            {
+                t2 = t2 - (supportCount / allRecordsCount);
+            }
+            else
+            {
+                t2 = t2 - Math.Pow((supportCount / allRecordsCount) * (AnotherSummarizator.Support().Count / AnotherSummarizator.AllRecords.Elements.Count), 2);
+            }
             degrees.Add(t2);
 
 
@@ -178,15 +207,16 @@ namespace Toolkit
             }
 
             // T_4
-            double t4 = 0;
-            double r1 = supportCount / allRecordsCount;
-
-            r1 *= supportCount / allRecordsCount;
-            t4 = r1;
+            double t4 = supportCount / allRecordsCount;
+            if (AnotherSummarizator != null)
+            {
+                t4 *= AnotherSummarizator.Support().Count / AnotherSummarizator.AllRecords.Elements.Count;
+            }
             degrees.Add(t4);
 
-            // T_5
-            double t5 = 2 * 0.5;
+            // T_5 
+            double t5 = 0;
+            t5 = 2 * Math.Pow(0.5, AnotherSummarizator != null ? 2 : 1);
             degrees.Add(t5);
 
             if (aIsAllChosen)
@@ -205,9 +235,9 @@ namespace Toolkit
                 // T_8
 
                 double t8 = supportCount / allRecordsCount;
-                if (Qualificator != null)
+                if (AnotherSummarizator != null)
                 {
-                    t8 *= qualificatorSupportCount / qualificatorAllRecordsCount;
+                    t8 *= AnotherSummarizator.Support().Count / AnotherSummarizator.AllRecords.Elements.Count;
                 }
                 degrees.Add(t8);
 
@@ -224,30 +254,37 @@ namespace Toolkit
 
                     // Meassure T_11
                     degrees.Add(2 * Math.Pow(0.5, 1));
+                    if (degrees.Any(val => double.IsNaN(val) || double.IsInfinity(val)))
+                    {
+                    }
                 }
             }
 
-            if (Qualificator == null)
+            if (AnotherSummarizator != null)
             {
-                aSummarization = $"{quantifier.Name} wpisów wykazywało następujący parametr: {LinguisticVariable.Name} [{degrees.Average():N3}]";
+                string relation = AnotherSummarizator.RelationType == "AND" ? "i" : "lub";
+                aSummarization = $"{quantifier.Name} wpisów ma parametr: {LinguisticVariable.Name} {relation} parametr: {AnotherSummarizator.LinguisticVariable.Name} [{degrees.Average():N3}]";
+            }
+            else if (Qualificator != null)
+            {
+                aSummarization = $"{quantifier.Name} wpisów posiadając parametr: {Qualificator.LinguisticVariable.Name} posiadało parametr: {LinguisticVariable.Name} [{degrees.Average():N3}]";
             }
             else
             {
-                if (RelationType == "AND")
-                {
-                    aSummarization = $"{quantifier.Name} wpisów mających parametr: {Qualificator.LinguisticVariable.Name} wykazywało następujący parametr: {LinguisticVariable.Name} [{degrees.Average():N3}]";
-                }
-                if (RelationType == "OR")
-                {
-                    aSummarization = $"{quantifier.Name} wpisów miało parametr: {Qualificator.LinguisticVariable.Name} lub parametr: {LinguisticVariable.Name} [{degrees.Average():N3}]";
-                }
+                aSummarization = $"{quantifier.Name} wpisów posiada parametr: {LinguisticVariable.Name} [{degrees.Average():N3}]";
             }
-            if (degrees.Any(val => double.IsNaN(val) || double.IsInfinity(val)))
+
+
+            if (degrees.Any(val => double.IsNaN(val) || double.IsInfinity(val) || val > 1))
             {
+
             }
             ResultMembership.Clear();
             double avg = degrees.Average();
+            if(avg.Equals(0.5))
+            {
 
+            }
             return avg;
         }
 

@@ -24,32 +24,34 @@ namespace UserInteface
             List<LinguisticVariable> qualificators = LinguisticVariableSerializer.Deserialize("..\\..\\..\\Resources\\Qualificators.xml");
             #endregion
 
-            List<FuzzySet> FuzzySetsWithoutQualificators = new List<FuzzySet>();
-            foreach (LinguisticVariable summarizator in summarizators)
+            #region Generate simple summaries
+            List<FuzzySet> simpleSummaries = new List<FuzzySet>();
+            for (int i = 0; i < summarizators.Count; ++i)
             {
-                FuzzySetsWithoutQualificators.Add(new FuzzySet(data, summarizator));
+                Process(new FuzzySet(data, summarizators[i]), quantifiers);
             }
+            #endregion
 
-            List<FuzzySet> FuzzySetsAndQualificators = new List<FuzzySet>();
-            foreach (LinguisticVariable summarizator in summarizators)
+            #region Generate summaries with complex summarators
+            for (int i = 0; i < 2; i++)
             {
-                FuzzySetsAndQualificators.Add(new FuzzySet(data, summarizator, "AND"));
+                FuzzySet second = new FuzzySet(data, summarizators[summarizators.Count - 1 - i], "OR");
+                Process(new FuzzySet(data, summarizators[i]) { AnotherSummarizator = second }, quantifiers);
             }
+            for (int i = 0; i < 2; i++)
+            {
+                FuzzySet second = new FuzzySet(data, summarizators[summarizators.Count - 1 - i], "AND");
+                Process(new FuzzySet(data, summarizators[i]) { AnotherSummarizator = second }, quantifiers);
+            }
+            #endregion
 
-            List<FuzzySet> FuzzySetsOrQualificators = new List<FuzzySet>();
-            foreach (LinguisticVariable summarizator in summarizators)
+            #region Generate summaries of second type
+            for (int i = 0; i < qualificators.Count; i++)
             {
-                FuzzySetsOrQualificators.Add(new FuzzySet(data, summarizator, "OR"));
+                FuzzySet qualificator = new FuzzySet(data, qualificators[i]);
+                Process(new FuzzySet(data, summarizators[3 + i]) { Qualificator = qualificator }, quantifiers);
             }
-
-            List<FuzzySet> Qualificators = new List<FuzzySet>();
-            foreach (LinguisticVariable linguisticVariable in qualificators)
-            {
-                Qualificators.Add(new FuzzySet(data, linguisticVariable));
-            }
-            GenerateSummarizations(FuzzySetsWithoutQualificators, quantifiers);
-            GenerateSummarizations(FuzzySetsAndQualificators, quantifiers, Qualificators);
-            GenerateSummarizations(FuzzySetsOrQualificators, quantifiers, Qualificators);
+            #endregion
 
             Results.ItemsSource = Summarizations;
         }
@@ -69,33 +71,12 @@ namespace UserInteface
                 {
                     foreach (SummarizationResult summarizationResult in Summarizations)
                     {
-                        streamWriter.WriteLine("Best summarization:\r\n\t-" + summarizationResult.BestSummarization + "\r\n\r\nAll summarizations:\r\n");
-                        int i = 1;
+                        streamWriter.WriteLine("Best summarization:\r\n" + summarizationResult.BestSummarization + "\r\n\r\nRest summarizations:\r\n");
                         foreach (string summarizationItem in summarizationResult.AllSummarizations)
                         {
-                            streamWriter.WriteLine(i + ". " + summarizationItem);
-                            ++i;
+                            streamWriter.WriteLine(summarizationItem);
                         }
                         streamWriter.WriteLine("\r\n\r\n\r\n##################################################################\r\n\r\n\r\n");
-                    }
-                }
-            }
-        }
-
-        private void GenerateSummarizations(List<FuzzySet> aFuzzySets, List<LinguisticVariable> aQuantifiers, List<FuzzySet> aQualificators = null)
-        {
-            foreach (FuzzySet fuzzySet in aFuzzySets)
-            {
-                if (aQualificators == null)
-                {
-                    Process(fuzzySet, aQuantifiers);
-                }
-                else
-                {
-                    foreach (FuzzySet qualifcator in aQualificators)
-                    {
-                        fuzzySet.Qualificator = qualifcator;
-                        Process(fuzzySet, aQuantifiers);
                     }
                 }
             }

@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfLinguisticVariable xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<LinguisticVariable>
-		<Name>porywisty wiatr</Name>
-		<MembershipFunctionType>TriangularFunction</MembershipFunctionType>
-		<Parameters>
-			<double>25</double>
-			<double>90</double>
-			<double>100</double>
-		</Parameters>
-		<MemberToExtract>WindGustSpeed</MemberToExtract>
-	</LinguisticVariable>
 
-	<LinguisticVariable> 
-		<Name>spokojny wiatr</Name>
-		<MembershipFunctionType>TriangularFunction</MembershipFunctionType>
-		<Parameters>
-			<double>0</double>
-			<double>5</double>
-			<double>30</double>
-		</Parameters>
-		<MemberToExtract>WindGustSpeed</MemberToExtract>
-	</LinguisticVariable>
+  <LinguisticVariable>
+    <Name>małe zachmurzenie</Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+    <Parameters>
+      <double>0</double>
+      <double>0</double>
+      <double>4</double>
+    </Parameters>
+    <MemberToExtract>Cloud</MemberToExtract>
+  </LinguisticVariable>
 
-	<LinguisticVariable>
-		<Name>przewidywany opad następnego dnia</Name>
-		<MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
-		<Parameters>
-			<double>5</double>
-			<double>15</double>
-			<double>300</double>
-			<double>400</double>
-		</Parameters>
-		<MemberToExtract>RiskMm</MemberToExtract>
-	</LinguisticVariable>
+  <LinguisticVariable>
+    <Name>bardzo wysoka wilgotność powietrza</Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+    <Parameters>
+      <double>80</double>
+      <double>90</double>
+      <double>100</double>
+    </Parameters>
+    <MemberToExtract>Humidity</MemberToExtract>
+  </LinguisticVariable>
 
-	<LinguisticVariable>
-		<Name>brak przewidywanych opadów nasępnego dnia</Name>
-		<MembershipFunctionType>TriangularFunction</MembershipFunctionType>
-		<Parameters>
-			<double>0</double>
-			<double>1</double>
-			<double>10</double>
-		</Parameters>
-		<MemberToExtract>RiskMm</MemberToExtract>
-	</LinguisticVariable>
-	
+  <LinguisticVariable>
+    <Name>przymrozek</Name>
+    <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+    <Parameters>
+      <double>-30</double>
+      <double>-10</double>
+      <double>0</double>
+      <double>0</double>
+    </Parameters>
+    <MemberToExtract>MinimalTemperature</MemberToExtract>
+  </LinguisticVariable>
+
+  <LinguisticVariable>
+    <Name>upał</Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+    <Parameters>
+      <double>25</double>
+      <double>50</double>
+      <double>50</double>
+    </Parameters>
+    <MemberToExtract>MaximalTemperature</MemberToExtract>
+  </LinguisticVariable>
 </ArrayOfLinguisticVariable>

@@ -11,24 +11,11 @@
 		</Parameters>
 		<MemberToExtract>Rainfall</MemberToExtract>
 	</LinguisticVariable>
-
-	<LinguisticVariable>
-		<Name>opady</Name>
-		<MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
-		<Parameters>
-			<double>2</double>
-			<double>10</double>
-			<double>20</double>
-			<double>28</double>
-		</Parameters>
-		<MemberToExtract>Rainfall</MemberToExtract>
-	</LinguisticVariable>
-
 	<LinguisticVariable>
 		<Name>ulewne opady</Name>
 		<MembershipFunctionType>TriangularFunction</MembershipFunctionType>
 		<Parameters>
-			<double>20</double>
+			<double>50</double>
 			<double>240</double>
 			<double>250</double>
 		</Parameters>
@@ -46,7 +33,6 @@
 		</Parameters>
 		<MemberToExtract>WindGustSpeed</MemberToExtract>
 	</LinguisticVariable>
-
 	<LinguisticVariable>
 		<Name>słabe porywy wiatru</Name>
 		<MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
@@ -59,18 +45,6 @@
 		<MemberToExtract>WindGustSpeed</MemberToExtract>
 	</LinguisticVariable>
 	
-	
-	<LinguisticVariable>
-		<Name>wilgotność około 90%</Name>
-		<MembershipFunctionType>TriangularFunction</MembershipFunctionType>
-		<Parameters>
-			<double>80</double>
-			<double>90</double>
-			<double>100</double>
-		</Parameters>
-		<MemberToExtract>Humidity</MemberToExtract>
-	</LinguisticVariable>
-
 	<LinguisticVariable>
 		<Name>niskie ciśnienie</Name>
 		<MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
@@ -82,7 +56,6 @@
 		</Parameters>
 		<MemberToExtract>Pressure</MemberToExtract>
 	</LinguisticVariable>
-
 	<LinguisticVariable>
 		<Name>wysokie ciśnienie</Name>
 		<MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
@@ -95,43 +68,88 @@
 		<MemberToExtract>Pressure</MemberToExtract>
 	</LinguisticVariable>
 
-	<LinguisticVariable>
-		<Name>ciśnienie normalne</Name>
-		<MembershipFunctionType>TriangularFunction</MembershipFunctionType>
-		<Parameters>
-			<double>1008</double>
-			<double>1013</double>
-			<double>1018</double>
-		</Parameters>
-		<MemberToExtract>Pressure</MemberToExtract>
-	</LinguisticVariable>
+  <LinguisticVariable>
+    <Name>duża średnia prędkość watru</Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+    <Parameters>
+      <double>40</double>
+      <double>90</double>
+      <double>100</double>
+    </Parameters>
+    <MemberToExtract>WindSpeed</MemberToExtract>
+  </LinguisticVariable>
+  <LinguisticVariable>
+    <Name>mała średnia prędkość watru</Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+    <Parameters>
+      <double>0</double>
+      <double>5</double>
+      <double>30</double>
+    </Parameters>
+    <MemberToExtract>WindSpeed</MemberToExtract>
+  </LinguisticVariable>
 
-	<LinguisticVariable>
-		<Name>małe zaachmurzenie</Name>
-		<MembershipFunctionType>TriangularFunction</MembershipFunctionType>
-		<Parameters>
-			<double>0</double>
-			<double>1</double>
-			<double>1</double>
-			<double>1</double>
-			<double>2</double>
-			<double>0.8</double>
-			<double>3</double>
-			<double>0.8</double>			
-			<double>4</double>
-			<double>0.5</double>
-			<double>5</double>
-			<double>0.5</double>
-			<double>6</double>
-			<double>0</double>
-			<double>7</double>
-			<double>0</double>
-			<double>8</double>
-			<double>0</double>
-			<double>9</double>
-			<double>0</double>
-		</Parameters>
-		<MemberToExtract>Humidity</MemberToExtract>
-	</LinguisticVariable>
-	
+  <LinguisticVariable>
+    <Name>przewidywany opad następnego dnia</Name>
+    <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+    <Parameters>
+      <double>5</double>
+      <double>15</double>
+      <double>300</double>
+      <double>400</double>
+    </Parameters>
+    <MemberToExtract>RiskMm</MemberToExtract>
+  </LinguisticVariable>
+  <LinguisticVariable>
+    <Name>brak przewidywanych opadów nasępnego dnia</Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+    <Parameters>
+      <double>0</double>
+      <double>1</double>
+      <double>10</double>
+    </Parameters>
+    <MemberToExtract>RiskMm</MemberToExtract>
+  </LinguisticVariable>
+
+  <LinguisticVariable>
+    <Name>brak przewidywanych opadów nasępnego dnia</Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+    <Parameters>
+      <double>0</double>
+      <double>5</double>
+      <double>10</double>
+    </Parameters>
+    <MemberToExtract>Evaporation</MemberToExtract>
+  </LinguisticVariable>
+  <LinguisticVariable>
+    <Name>brak przewidywanych opadów nasępnego dnia</Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+    <Parameters>
+      <double>55</double>
+      <double>70</double>
+      <double>85</double>
+    </Parameters>
+    <MemberToExtract>Evaporation</MemberToExtract>
+  </LinguisticVariable>
+
+  <LinguisticVariable>
+    <Name>małe nasłonecznienie</Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+    <Parameters>
+      <double>0</double>
+      <double>2.5</double>
+      <double>3</double>
+    </Parameters>
+    <MemberToExtract>Sunshine</MemberToExtract>
+  </LinguisticVariable>
+  <LinguisticVariable>
+    <Name>duże nasłonecznienie</Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+    <Parameters>
+      <double>9</double>
+      <double>12</double>
+      <double>15</double>
+    </Parameters>
+    <MemberToExtract>Sunshine</MemberToExtract>
+  </LinguisticVariable>
 </ArrayOfLinguisticVariable>

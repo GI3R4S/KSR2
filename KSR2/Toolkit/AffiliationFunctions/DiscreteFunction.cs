@@ -25,7 +25,14 @@ namespace Toolkit.AffiliationFunctions
 
         public double GetMembership(double x)
         {
-            return Membership[x];
+            if(Membership.ContainsKey(x))
+            {
+                return Membership[x];
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }
