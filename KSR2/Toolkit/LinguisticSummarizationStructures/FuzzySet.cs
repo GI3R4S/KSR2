@@ -8,6 +8,20 @@ namespace Toolkit
 {
     public class FuzzySet
     {
+        public static List<string> DegreesLabels = new List<string>()
+        {
+            "T_1",
+            "T_2",
+            "T_3",
+            "T_4",
+            "T_5",
+            "T_6",
+            "T_7",
+            "T_8",
+            "T_9",
+            "T_10",
+            "T_11"
+        };
         private Dictionary<Record, double> ResultMembership = new Dictionary<Record, double>();
 
         private Dictionary<Record, double> LocalAllRecordsMembership = new Dictionary<Record, double>();
@@ -281,10 +295,6 @@ namespace Toolkit
             }
             ResultMembership.Clear();
             double avg = degrees.Average();
-            if(avg.Equals(0.5))
-            {
-
-            }
             return avg;
         }
 
