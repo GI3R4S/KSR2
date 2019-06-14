@@ -121,9 +121,9 @@ namespace Toolkit
             }
         }
 
-        public double GetDegreeOfTruth(LinguisticVariable quantifier, ref string aSummarization, bool aIsAllChosen)
+        public Dictionary<string, double> GetDegrees(LinguisticVariable aQuantifier)
         {
-            List<double> degrees = new List<double>();
+            Dictionary<string, double> degrees = new Dictionary<string, double>();
 
             if (AnotherSummarizator != null && (AnotherSummarizator.RelationType.Equals("AND") || AnotherSummarizator.RelationType.Equals("OR")))
             {
@@ -156,8 +156,6 @@ namespace Toolkit
             {
 
             }
-
-
 
             double supportCount = Support().Count;
             double allRecordsCount = AllRecords.Elements.Count;
@@ -195,8 +193,8 @@ namespace Toolkit
                 }
             }
 
-            r = quantifier.MembershipFunction.GetMembership(r);
-            degrees.Add(r);
+            r = aQuantifier.MembershipFunction.GetMembership(r);
+            degrees.Add(DegreesLabels[0], r);
 
             // T_2
             double t2 = 1;
@@ -208,7 +206,7 @@ namespace Toolkit
             {
                 t2 = t2 - Math.Pow((supportCount / allRecordsCount) * (AnotherSummarizator.Support().Count / AnotherSummarizator.AllRecords.Elements.Count), 2);
             }
-            degrees.Add(t2);
+            degrees.Add(DegreesLabels[1], t2);
 
 
             if (Qualificator != null)
@@ -217,7 +215,7 @@ namespace Toolkit
                 List<Record> qualificatorSupport = Qualificator.Support();
                 int intersectCount = new ClassicalSet<Record>(Support()).Intersect(qualificatorSupport).Count;
                 double t3 = intersectCount / qualificatorSupportCount;
-                degrees.Add(t3);
+                degrees.Add(DegreesLabels[2], t3);
             }
 
             // T_4
@@ -226,76 +224,50 @@ namespace Toolkit
             {
                 t4 *= AnotherSummarizator.Support().Count / AnotherSummarizator.AllRecords.Elements.Count;
             }
-            degrees.Add(t4);
+            degrees.Add(DegreesLabels[3], t4);
 
             // T_5 
             double t5 = 0;
             t5 = 2 * Math.Pow(0.5, AnotherSummarizator != null ? 2 : 1);
-            degrees.Add(t5);
+            degrees.Add(DegreesLabels[4], t5);
 
-            if (aIsAllChosen)
-            {
-                // T_6
-                double distance = quantifier.Parameters.Last() -
-                                         quantifier.Parameters.First();
-                degrees.Add(1 - distance / AllRecords.Elements.Count);
+            // T_6
+            double distance = aQuantifier.Parameters.Last() -
+                                     aQuantifier.Parameters.First();
+            degrees.Add(DegreesLabels[5], 1 - distance / AllRecords.Elements.Count);
 
-                // T_7
-                var quantifierSet = Enumerable.Range((int)quantifier.Parameters.First(),
-                    (int)quantifier.Parameters.Last() - 1);
-                double quantifierCardinalNumber = quantifierSet.Sum(i => quantifier.MembershipFunction.GetMembership(i));
-                degrees.Add(Math.Min(1, quantifierCardinalNumber / distance));
+            // T_7
+            var quantifierSet = Enumerable.Range((int)aQuantifier.Parameters.First(),
+                (int)aQuantifier.Parameters.Last() - 1);
+            double quantifierCardinalNumber = quantifierSet.Sum(i => aQuantifier.MembershipFunction.GetMembership(i));
+            degrees.Add(DegreesLabels[6], Math.Min(1, quantifierCardinalNumber / distance));
 
-                // T_8
+            // T_8
 
-                double t8 = supportCount / allRecordsCount;
-                if (AnotherSummarizator != null)
-                {
-                    t8 *= AnotherSummarizator.Support().Count / AnotherSummarizator.AllRecords.Elements.Count;
-                }
-                degrees.Add(t8);
-
-                if (Qualificator != null)
-                {
-                    // T_9
-                    double t9 = 1 - (qualificatorSupportCount / allRecordsCount);
-                    degrees.Add(t9);
-
-
-                    // Meassure T_10
-                    double t10 = 1 - qualificatorSupportCount / qualificatorAllRecordsCount;
-                    degrees.Add(t10);
-
-                    // Meassure T_11
-                    degrees.Add(2 * Math.Pow(0.5, 1));
-                    if (degrees.Any(val => double.IsNaN(val) || double.IsInfinity(val)))
-                    {
-                    }
-                }
-            }
-
+            double t8 = supportCount / allRecordsCount;
             if (AnotherSummarizator != null)
             {
-                string relation = AnotherSummarizator.RelationType == "AND" ? "i" : "lub";
-                aSummarization = $"{quantifier.Name} wpisów ma parametr: {LinguisticVariable.Name} {relation} parametr: {AnotherSummarizator.LinguisticVariable.Name} [{degrees.Average():N3}]";
+                t8 *= AnotherSummarizator.Support().Count / AnotherSummarizator.AllRecords.Elements.Count;
             }
-            else if (Qualificator != null)
+            degrees.Add(DegreesLabels[7], t8);
+
+            if (Qualificator != null)
             {
-                aSummarization = $"{quantifier.Name} wpisów posiadając parametr: {Qualificator.LinguisticVariable.Name} posiadało parametr: {LinguisticVariable.Name} [{degrees.Average():N3}]";
-            }
-            else
-            {
-                aSummarization = $"{quantifier.Name} wpisów posiada parametr: {LinguisticVariable.Name} [{degrees.Average():N3}]";
-            }
+                // T_9
+                double t9 = 1 - (qualificatorSupportCount / allRecordsCount);
+                degrees.Add(DegreesLabels[8], t9);
 
 
-            if (degrees.Any(val => double.IsNaN(val) || double.IsInfinity(val) || val > 1))
-            {
+                // Meassure T_10
+                double t10 = 1 - qualificatorSupportCount / qualificatorAllRecordsCount;
+                degrees.Add(DegreesLabels[9], t10);
 
+                // Meassure T_11
+                degrees.Add(DegreesLabels[10], 2 * Math.Pow(0.5, 1));
             }
+
             ResultMembership.Clear();
-            double avg = degrees.Average();
-            return avg;
+            return degrees;
         }
 
     }

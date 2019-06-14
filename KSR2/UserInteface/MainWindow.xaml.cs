@@ -11,11 +11,12 @@ namespace UserInteface
 {
     public partial class MainWindow : Window
     {
+        private List<SummarizationResult> Summarizations { get; set; } = new List<SummarizationResult>();
+
         private List<CheckBox> DegreesCheckboxes = new List<CheckBox>();
-        private List<CheckBox> QuantificatorsCheckboxes = new List<CheckBox>();
+        private List<CheckBox> QuantifiersCheckboxes = new List<CheckBox>();
         private List<CheckBox> SummarizatorsCheckboxes = new List<CheckBox>();
         private List<CheckBox> QualificatorsCheckboxes = new List<CheckBox>();
-        private List<SummarizationResult> Summarizations { get; set; } = new List<SummarizationResult>();
         private List<Record> data = new List<Record>();
         private List<LinguisticVariable> summarizators = new List<LinguisticVariable>();
         private List<LinguisticVariable> quantifiers = new List<LinguisticVariable>();
@@ -41,7 +42,7 @@ namespace UserInteface
             for (int i = 0; i < quantifiers.Count; ++i)
             {
                 CheckBox checkBox = new CheckBox() { Content = quantifiers[i].Name, IsEnabled = true, Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)), IsChecked = true };
-                QuantificatorsCheckboxes.Add(checkBox);
+                QuantifiersCheckboxes.Add(checkBox);
                 checkBox.Click += QuantificatorsUpdated;
                 Stack_Panel_Quantifiers.Children.Add(checkBox);
             }
@@ -137,10 +138,15 @@ namespace UserInteface
                 {
                     foreach (SummarizationResult summarizationResult in Summarizations)
                     {
-                        streamWriter.WriteLine("Best summarization:\r\n" + summarizationResult.BestSummarization + "\r\n\r\nRest summarizations:\r\n");
-                        foreach (string summarizationItem in summarizationResult.AllSummarizations)
+                        int i = 0;
+                        foreach(string summary in summarizationResult.Summaries)
                         {
-                            streamWriter.WriteLine(summarizationItem);
+                            streamWriter.WriteLine(summary);
+                            if(i == 0)
+                            {
+                                streamWriter.Write("\r\n");
+                            }
+                            i++;
                         }
                         streamWriter.WriteLine("\r\n\r\n\r\n##################################################################\r\n\r\n\r\n");
                     }
@@ -152,175 +158,51 @@ namespace UserInteface
         {
             List<double> qualities = new List<double>();
             SummarizationResult summarizationResult = new SummarizationResult();
-            string bestResult = "";
-            double quality = 0;
             foreach (LinguisticVariable quantifier in aQuantifiers)
             {
-                string summarization = "";
-                double degreeOfTruth = set.GetDegreeOfTruth(quantifier, ref summarization, true);
-                if (degreeOfTruth > quality)
-                {
-                    bestResult = summarization;
-                    quality = degreeOfTruth;
-                }
-
-                summarizationResult.AllSummarizations.Add(summarization);
+                string summarization = GetDescription(set, quantifier).Key;
+                double degreeOfTruth = GetDescription(set, quantifier).Value;
+                summarizationResult.Pairs.Add(new KeyValuePair<string, double>(summarization, degreeOfTruth));
             }
-            qualities.Add(quality);
-            summarizationResult.BestSummarization = bestResult;
             Summarizations.Add(summarizationResult);
         }
-
-
-        private void Generate_Summarizations_Click(object sender, RoutedEventArgs e)
+        private KeyValuePair<string, double> GetDescription(FuzzySet aFuzzySet, LinguisticVariable aQuantifier)
         {
-            GenerateSummarizations();
-        }
+            Dictionary<string, double> degrees = aFuzzySet.GetDegrees(aQuantifier);
+            var filteredDegrees = degrees.Where(pair => DegreesCheckboxes.Select(cb => cb.Content).Contains(pair.Key)).ToList();
+            double average = filteredDegrees.Select(pair => pair.Value).Average();
 
-        private void CB_Qualificator_Click(object sender, RoutedEventArgs e)
-        {
-            Stack_Panel_Qualificators.IsEnabled = true;
-            CB_Qualificator.IsChecked = true;
-            CB_Complex.IsChecked = false;
-            CB_Simple.IsChecked = false;
-            EXP_Qualifiers.IsEnabled = true;
-        }
-
-        private void CB_Complex_Click(object sender, RoutedEventArgs e)
-        {
-            Stack_Panel_Qualificators.IsEnabled = false;
-            CB_Qualificator.IsChecked = false;
-            CB_Complex.IsChecked = true;
-            CB_Simple.IsChecked = false;
-            EXP_Qualifiers.IsExpanded = false;
-            EXP_Qualifiers.IsEnabled = false;
-        }
-
-        private void CB_Simple_Click(object sender, RoutedEventArgs e)
-        {
-            Stack_Panel_Qualificators.IsEnabled = false;
-            CB_Qualificator.IsChecked = false;
-            CB_Complex.IsChecked = false;
-            CB_Simple.IsChecked = true;
-            EXP_Qualifiers.IsExpanded = false;
-            EXP_Qualifiers.IsEnabled = false;
-        }
-
-        private void SummarizationsUpdated(object sender, RoutedEventArgs e)
-        {
-            int countOfTicked = SummarizatorsCheckboxes.Count(checkBox => checkBox.IsChecked.Value);
-            if (CB_Complex.IsChecked.Value)
+            string summarization = "";
+            if (aFuzzySet.AnotherSummarizator != null)
             {
-                if (countOfTicked == 2)
-                {
-                    SummarizatorsCheckboxes.Where(checkBox => checkBox.IsChecked == false).ToList().ForEach(checkBox => checkBox.IsEnabled = false);
-                    Generate_Summarizations.IsEnabled = true;
-                }
-                else
-                {
-                    SummarizatorsCheckboxes.ForEach(checkBox => checkBox.IsEnabled = true);
-                    Generate_Summarizations.IsEnabled = false;
-                }
+                string relation = aFuzzySet.AnotherSummarizator.RelationType == "AND" ? "i" : "lub";
+                summarization = $"{aQuantifier.Name} wpisów ma parametr: {aFuzzySet.LinguisticVariable.Name} {relation} parametr: {aFuzzySet.AnotherSummarizator.LinguisticVariable.Name} [{average:N3}]";
+            }
+            else if (aFuzzySet.Qualificator != null)
+            {
+                summarization = $"{aQuantifier.Name} wpisów posiadając parametr: {aFuzzySet.Qualificator.LinguisticVariable.Name} posiadało parametr: {aFuzzySet.LinguisticVariable.Name} [{average:N3}]";
             }
             else
             {
-                if (countOfTicked == 1)
-                {
-                    SummarizatorsCheckboxes.Where(checkBox => checkBox.IsChecked == false).ToList().ForEach(checkBox => checkBox.IsEnabled = false);
-                    if (CB_Qualificator.IsChecked.Value)
-                    {
-                        if (AreQualiicatorsFine(1))
-                        {
-                            Generate_Summarizations.IsEnabled = true;
-                        }
-                    }
-                    else
-                    {
-                        Generate_Summarizations.IsEnabled = true;
-                    }
+                summarization = $"{aQuantifier.Name} wpisów posiada parametr: {aFuzzySet.LinguisticVariable.Name} [{average:N3}]";
+            }
 
-                }
-                else
+            summarization += "\r\n";
+            foreach(CheckBox checkBox in DegreesCheckboxes.Where(cb => cb.IsChecked.Value))
+            {
+                try
                 {
-                    SummarizatorsCheckboxes.ForEach(checkBox => checkBox.IsEnabled = true);
-                    Generate_Summarizations.IsEnabled = false;
+                    var searchedPair = filteredDegrees.First(pair => pair.Key.Equals(checkBox.Content));
+                    summarization += $"{checkBox.Content}({searchedPair.Value:N3}) ";
+
+                } catch
+                {
+                    summarization += $"{checkBox.Content}:(-) ";
                 }
             }
-        }
 
-        private void QualificatorsUpdated(object sender, RoutedEventArgs e)
-        {
-            int countOfTicked = QualificatorsCheckboxes.Count(checkBox => checkBox.IsChecked.Value);
-            if (CB_Qualificator.IsChecked.Value)
-            {
-                if (countOfTicked == 1)
-                {
-                    QualificatorsCheckboxes.Where(checkBox => checkBox.IsChecked == false).ToList().ForEach(checkBox => checkBox.IsEnabled = false);
-                    if (AreSummarizatorsFine(1))
-                    {
-                        Generate_Summarizations.IsEnabled = true;
-                    }
-                }
-                else
-                {
-                    QualificatorsCheckboxes.ForEach(checkBox => checkBox.IsEnabled = true);
-                    Generate_Summarizations.IsEnabled = false;
-                }
-            }
+            return new KeyValuePair<string, double>(summarization, average);
         }
-
-        private void QuantificatorsUpdated(object sender, RoutedEventArgs e)
-        {
-            int countOfTicked = QuantificatorsCheckboxes.Count(checkBox => checkBox.IsChecked.Value);
-            if (countOfTicked == 1)
-            {
-                QuantificatorsCheckboxes.First(checkBox => checkBox.IsChecked == true).IsEnabled = false;
-            }
-            else
-            {
-                QuantificatorsCheckboxes.Where(checkBox => checkBox.IsEnabled == false).ToList().ForEach(checkBox => checkBox.IsEnabled = true);
-            }
-        }
-
-        private void DegreesUpdated(object sender, RoutedEventArgs e)
-        {
-            int countOfTicked = DegreesCheckboxes.Count(checkBox => checkBox.IsChecked.Value);
-            if (countOfTicked == 1)
-            {
-                DegreesCheckboxes.First(checkBox => checkBox.IsChecked == true).IsEnabled = false;
-            }
-            else
-            {
-                DegreesCheckboxes.Where(checkBox => checkBox.IsEnabled == false).ToList().ForEach(checkBox => checkBox.IsEnabled = true);
-            }
-        }
-
-        private bool AreSummarizatorsFine(int aMaxIncludedCount)
-        {
-            int countOfTicked = SummarizatorsCheckboxes.Count(checkBox => checkBox.IsChecked.Value);
-            if (countOfTicked == aMaxIncludedCount)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        private bool AreQualiicatorsFine(int aMaxIncludedCount)
-        {
-            int countOfTicked = QualificatorsCheckboxes.Count(checkBox => checkBox.IsChecked.Value);
-            if (countOfTicked == aMaxIncludedCount)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
     }
 
 

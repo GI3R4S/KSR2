@@ -8,7 +8,13 @@ namespace Toolkit
 {
     public class SummarizationResult
     {
-        public string BestSummarization { get; set; }
-        public List<string> AllSummarizations { get; set; } = new List<string>();
+        public List<string> Summaries
+        {
+            get
+            {
+                return Pairs.OrderByDescending(p => p.Value).Select(p => p.Key).ToList();
+            }
+        }
+        public List<KeyValuePair<string, double>> Pairs { get; set; }  = new List<KeyValuePair<string, double>>();
     }
 }
