@@ -7,41 +7,124 @@
     <Parameters>
       <double>0</double>
       <double>0</double>
-      <double>4</double>
+      <double>5</double>
+    </Parameters>
+    <MemberToExtract>Cloud</MemberToExtract>
+  </LinguisticVariable>
+
+  <LinguisticVariable>
+    <Name>duże zachmurzenie</Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+    <Parameters>
+      <double>3</double>
+      <double>8</double>
+      <double>8</double>
     </Parameters>
     <MemberToExtract>Cloud</MemberToExtract>
   </LinguisticVariable>
 
   <LinguisticVariable>
     <Name>bardzo wysoka wilgotność powietrza</Name>
-    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+    <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
     <Parameters>
       <double>80</double>
       <double>90</double>
+      <double>100</double>
       <double>100</double>
     </Parameters>
     <MemberToExtract>Humidity</MemberToExtract>
   </LinguisticVariable>
 
   <LinguisticVariable>
-    <Name>przymrozek</Name>
+    <Name>średnia wilgotność powietrza</Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+    <Parameters>
+      <double>50</double>
+      <double>70</double>
+      <double>90</double>
+    </Parameters>
+    <MemberToExtract>Humidity</MemberToExtract>
+  </LinguisticVariable>
+  
+  <LinguisticVariable>
+    <Name>suche powietrze</Name>
     <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
     <Parameters>
-      <double>-30</double>
-      <double>-10</double>
       <double>0</double>
       <double>0</double>
+      <double>30</double>
+      <double>60</double>
+    </Parameters>
+    <MemberToExtract>Humidity</MemberToExtract>
+  </LinguisticVariable>
+
+  <LinguisticVariable>
+    <Name>niska minimalna temperatura</Name>
+    <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+    <Parameters>
+      <double>-7</double>
+      <double>-7</double>
+      <double>0</double>
+      <double>5</double>
     </Parameters>
     <MemberToExtract>MinimalTemperature</MemberToExtract>
   </LinguisticVariable>
 
   <LinguisticVariable>
-    <Name>upał</Name>
+    <Name>średnia minimalna temperatura</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
+      <double>0</double>
+      <double>12.5</double>
       <double>25</double>
-      <double>50</double>
-      <double>50</double>
+    </Parameters>
+    <MemberToExtract>MinimalTemperature</MemberToExtract>
+  </LinguisticVariable>
+
+  <LinguisticVariable>
+    <Name>wysoka minimalna temperatura</Name>
+    <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+    <Parameters>
+      <double>20</double>
+      <double>30</double>
+      <double>35</double>
+      <double>35</double>
+    </Parameters>
+    <MemberToExtract>MinimalTemperature</MemberToExtract>
+  </LinguisticVariable>
+
+
+  <LinguisticVariable>
+    <Name>niska maksymalna temperatura</Name>
+    <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+    <Parameters>
+      <double>4</double>
+      <double>4</double>
+      <double>14</double>
+      <double>25</double>
+    </Parameters>
+    <MemberToExtract>MaximalTemperature</MemberToExtract>
+  </LinguisticVariable>
+
+  <LinguisticVariable>
+    <Name>średnia maksymalna temperatura</Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+    <Parameters>
+      <double>20</double>
+      <double>30</double>
+      <double>40</double>
+    </Parameters>
+    <MemberToExtract>MaximalTemperature</MemberToExtract>
+  </LinguisticVariable>
+
+  <LinguisticVariable>
+    <Name>wysoka maksymalna temperatura</Name>
+    <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+    <Parameters>
+      <double>30</double>
+      <double>40</double>
+      <double>48</double>
+      <double>48</double>
     </Parameters>
     <MemberToExtract>MaximalTemperature</MemberToExtract>
   </LinguisticVariable>

@@ -1,4 +1,4 @@
-﻿namespace Toolkit.AffiliationFunctions
+﻿namespace Toolkit
 {
     public enum MembershipFunctionTypes
     {

@@ -27,19 +27,18 @@ namespace Toolkit
                 Record recordBuilder = new Record();
                 var currentRow = dataTable.Rows[i];
 
-                recordBuilder.Date = (DateTime)currentRow[0];
-                recordBuilder.MinimalTemperature = float.Parse(currentRow[1].ToString());
-                recordBuilder.MaximalTemperature = float.Parse(currentRow[2].ToString());
-                recordBuilder.Rainfall = float.Parse(currentRow[3].ToString());
-                recordBuilder.Evaporation = float.Parse(currentRow[4].ToString());
-                recordBuilder.Sunshine = float.Parse(currentRow[5].ToString());
-                recordBuilder.WindGustSpeed = float.Parse(currentRow[6].ToString());
-                recordBuilder.WindSpeed = int.Parse(currentRow[7].ToString());
-                recordBuilder.Humidity = int.Parse(currentRow[8].ToString());
-                recordBuilder.Pressure = float.Parse(currentRow[9].ToString());
-                recordBuilder.Cloud = int.Parse(currentRow[10].ToString());
-                recordBuilder.Temperature = float.Parse(currentRow[11].ToString());
-                recordBuilder.RiskMm = float.Parse(currentRow[12].ToString());
+                recordBuilder.MinimalTemperature = float.Parse(currentRow[0].ToString());
+                recordBuilder.MaximalTemperature = float.Parse(currentRow[1].ToString());
+                recordBuilder.Rainfall = float.Parse(currentRow[2].ToString());
+                recordBuilder.Evaporation = float.Parse(currentRow[3].ToString());
+                recordBuilder.Sunshine = float.Parse(currentRow[4].ToString());
+                recordBuilder.WindGustSpeed = float.Parse(currentRow[5].ToString());
+                recordBuilder.WindSpeed = int.Parse(currentRow[6].ToString());
+                recordBuilder.Humidity = int.Parse(currentRow[7].ToString());
+                recordBuilder.Pressure = float.Parse(currentRow[8].ToString());
+                recordBuilder.Cloud = int.Parse(currentRow[9].ToString());
+                recordBuilder.Temperature = float.Parse(currentRow[10].ToString());
+                recordBuilder.RiskMm = float.Parse(currentRow[11].ToString());
 
                 records.Add(recordBuilder);
             }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Toolkit.AffiliationFunctions
+namespace Toolkit
 {
     public class TriangularFunction : IMembershipFunction
     {

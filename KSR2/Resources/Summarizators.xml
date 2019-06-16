@@ -112,22 +112,22 @@
   </LinguisticVariable>
 
   <LinguisticVariable>
-    <Name>brak przewidywanych opadów nasępnego dnia</Name>
+    <Name>male parowanie</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
       <double>0</double>
-      <double>5</double>
-      <double>10</double>
+      <double>50</double>
+      <double>50</double>
     </Parameters>
     <MemberToExtract>Evaporation</MemberToExtract>
   </LinguisticVariable>
   <LinguisticVariable>
-    <Name>brak przewidywanych opadów nasępnego dnia</Name>
+    <Name>duże parowanie</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
-      <double>55</double>
-      <double>70</double>
-      <double>85</double>
+      <double>40</double>
+      <double>100</double>
+      <double>100</double>
     </Parameters>
     <MemberToExtract>Evaporation</MemberToExtract>
   </LinguisticVariable>
@@ -137,8 +137,8 @@
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
       <double>0</double>
-      <double>2.5</double>
-      <double>3</double>
+      <double>8</double>
+      <double>8</double>
     </Parameters>
     <MemberToExtract>Sunshine</MemberToExtract>
   </LinguisticVariable>
@@ -146,10 +146,31 @@
     <Name>duże nasłonecznienie</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
-      <double>9</double>
-      <double>12</double>
-      <double>15</double>
+      <double>6</double>
+      <double>14.5</double>
+      <double>14.5</double>
     </Parameters>
     <MemberToExtract>Sunshine</MemberToExtract>
+  </LinguisticVariable>
+
+  <LinguisticVariable>
+    <Name>niska temperatura o godzinie 9</Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+    <Parameters>
+      <double>-1</double>
+      <double>-1</double>
+      <double>20</double>
+    </Parameters>
+    <MemberToExtract>MinimalTemperature</MemberToExtract>
+  </LinguisticVariable>
+  <LinguisticVariable>
+    <Name>wysoka temperatura o godzinie 9</Name>
+    <MembershipFunctionType>Triangular</MembershipFunctionType>
+    <Parameters>
+      <double>10</double>
+      <double>39</double>
+      <double>39</double>
+    </Parameters>
+    <MemberToExtract>MinimalTemperature</MemberToExtract>
   </LinguisticVariable>
 </ArrayOfLinguisticVariable>

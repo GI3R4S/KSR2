@@ -1,34 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfLinguisticVariable xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <LinguisticVariable>
-    <Name>Między 30000 a 45000</Name>
-    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
-    <Parameters>
-      <double>25000</double>
-      <double>37500</double>
-      <double>50000</double>
-    </Parameters>
-    <MemberToExtract></MemberToExtract>
-  </LinguisticVariable>
-  <LinguisticVariable>
-    <Name>Prawie wszystkie</Name>
-    <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
-    <Parameters>
-      <double>57065</double>
-      <double>57315</double>
-      <double>58065</double>
-      <double>58065</double>
-    </Parameters>
-    <MemberToExtract></MemberToExtract>
-  </LinguisticVariable>
-  <LinguisticVariable>
     <Name>Nieliczne </Name>
     <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
     <Parameters>
       <double>0</double>
       <double>0</double>
-      <double>750</double>
       <double>1000</double>
+      <double>5000</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
   </LinguisticVariable>
@@ -53,12 +32,33 @@
     <MemberToExtract></MemberToExtract>
   </LinguisticVariable>
   <LinguisticVariable>
+    <Name>Między 30000 a 45000</Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+    <Parameters>
+      <double>25000</double>
+      <double>37500</double>
+      <double>50000</double>
+    </Parameters>
+    <MemberToExtract></MemberToExtract>
+  </LinguisticVariable>
+  <LinguisticVariable>
     <Name>Około 80% </Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
       <double>34000</double>
       <double>46400</double>
       <double>58000</double>
+    </Parameters>
+    <MemberToExtract></MemberToExtract>
+  </LinguisticVariable>
+  <LinguisticVariable>
+    <Name>Prawie wszystkie</Name>
+    <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+    <Parameters>
+      <double>53065</double>
+      <double>57065</double>
+      <double>58065</double>
+      <double>58065</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
   </LinguisticVariable>

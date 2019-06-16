@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Toolkit.LinguisticSummarizationStructures;
+using Toolkit;
 
 namespace Toolkit
 {
@@ -31,7 +31,6 @@ namespace Toolkit
         public FuzzySet Qualificator;
         public FuzzySet AnotherSummarizator;
 
-        public Func<List<double>, double> OperatorFunction { get; set; }
         public string RelationType { get; set; } = "";
 
         public FuzzySet(List<Record> aRecords, LinguisticVariable aLinguisticVariable, string aRelationType = "")
@@ -45,7 +44,6 @@ namespace Toolkit
                 GetAffilationForRecord(record);
             }
         }
-
 
         public double GetAffilationForRecord(Record item)
         {

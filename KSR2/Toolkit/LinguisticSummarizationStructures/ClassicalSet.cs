@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Toolkit.LinguisticSummarizationStructures
+namespace Toolkit
 {
     public class ClassicalSet<T>
     {
