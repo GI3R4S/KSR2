@@ -68,6 +68,7 @@ namespace UserInteface
 
         private void GenerateSummarizations()
         {
+            Summarizations.Clear();
             // Collect chosen quantificators
             List<LinguisticVariable> chosenQuantyficators = new List<LinguisticVariable>();
             for (int i = 0; i < Stack_Panel_Quantifiers.Children.Count; ++i)

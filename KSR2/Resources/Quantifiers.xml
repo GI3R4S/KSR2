@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfLinguisticVariable xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
   <LinguisticVariable>
     <Name>Nieliczne </Name>
-    <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
       <double>0</double>
       <double>0</double>
-      <double>1000</double>
-      <double>5000</double>
+      <double>0.05</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
     <Absoluteness>
@@ -20,9 +20,9 @@
     <Name>Około 20% </Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
-      <double>0</double>
-      <double>11600</double>
-      <double>23200</double>
+      <double>0.15</double>
+      <double>0.2</double>
+      <double>0.25</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
     <Absoluteness>
@@ -31,17 +31,48 @@
   </LinguisticVariable>
   <LinguisticVariable>
     <Name>Około połowa</Name>
-    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+    <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
     <Parameters>
-      <double>15000</double>
-      <double>29000</double>
-      <double>41000</double>
+      <double>0.4</double>
+      <double>0.45</double>
+      <double>0.55</double>
+      <double>0.6</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
     <Absoluteness>
       <IsAbsolute>false</IsAbsolute>
     </Absoluteness>
   </LinguisticVariable>
+  
+  <LinguisticVariable>  
+    <Name>Około 80% </Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+    <Parameters>
+      <double>0.7</double>
+      <double>0.75</double>
+      <double>0.85</double>
+      <double>0.9</double>
+    </Parameters>
+    <MemberToExtract></MemberToExtract>
+    <Absoluteness>
+      <IsAbsolute>false</IsAbsolute>
+    </Absoluteness>
+  </LinguisticVariable>
+  
+  <LinguisticVariable>
+    <Name>Prawie wszystkie</Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+    <Parameters>
+      <double>0.95</double>
+      <double>1</double>
+      <double>1</double>
+    </Parameters>
+    <MemberToExtract></MemberToExtract>
+    <Absoluteness>
+      <IsAbsolute>false</IsAbsolute>
+    </Absoluteness>
+  </LinguisticVariable>
+
   <LinguisticVariable>
     <Name>Między 30000 a 45000</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
@@ -52,34 +83,35 @@
     </Parameters>
     <MemberToExtract></MemberToExtract>
     <Absoluteness>
-        <IsAbsolute>true</IsAbsolute>
-      </Absoluteness>
-  </LinguisticVariable>
-  <LinguisticVariable>
-    <Name>Około 80% </Name>
-    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
-    <Parameters>
-      <double>34000</double>
-      <double>46400</double>
-      <double>58000</double>
-    </Parameters>
-    <MemberToExtract></MemberToExtract>
-    <Absoluteness>
-      <IsAbsolute>false</IsAbsolute>
+      <IsAbsolute>true</IsAbsolute>
     </Absoluteness>
   </LinguisticVariable>
+
   <LinguisticVariable>
-    <Name>Prawie wszystkie</Name>
-    <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
+    <Name>Niemal 20000</Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
-      <double>53065</double>
-      <double>57065</double>
-      <double>58065</double>
-      <double>58065</double>
+      <double>15000</double>
+      <double>20000</double>
+      <double>20000</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
     <Absoluteness>
-      <IsAbsolute>false</IsAbsolute>
+      <IsAbsolute>true</IsAbsolute>
+    </Absoluteness>
+  </LinguisticVariable>
+
+  <LinguisticVariable>
+    <Name>Nieco ponad  9000</Name>
+    <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
+    <Parameters>
+      <double>9000</double>
+      <double>14000</double>
+      <double>14000</double>
+    </Parameters>
+    <MemberToExtract></MemberToExtract>
+    <Absoluteness>
+      <IsAbsolute>true</IsAbsolute>
     </Absoluteness>
   </LinguisticVariable>
 </ArrayOfLinguisticVariable>

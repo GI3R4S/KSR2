@@ -31,6 +31,12 @@ namespace Toolkit
             return MemberToExtract == "" ? true : false;
         }
 
+        public double GetSurfaceArea()
+        {
+            double height = 1;
+            return MembershipFunctionType == MembershipFunctionTypes.TriangularFunction ? (Parameters[2] - Parameters[0]) * height : ((Parameters[3] - Parameters[0]) * (Parameters[2] - Parameters[1])) * height / 2;
+        }
+
         [XmlIgnore]
         public IMembershipFunction MembershipFunction { get; set; }
 

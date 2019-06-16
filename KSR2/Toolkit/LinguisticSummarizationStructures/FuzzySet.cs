@@ -22,6 +22,9 @@ namespace Toolkit
             "T_10",
             "T_11"
         };
+
+        public static int CountOfAllRecordsInDb = 58065;
+
         private Dictionary<Record, double> ResultMembership = new Dictionary<Record, double>();
 
         private Dictionary<Record, double> LocalAllRecordsMembership = new Dictionary<Record, double>();
@@ -111,6 +114,12 @@ namespace Toolkit
             }
         }
 
+        public double GetSurfaceArea()
+        {
+            double height = 1;
+            return LinguisticVariable.MembershipFunctionType == MembershipFunctionTypes.TriangularFunction ? (LinguisticVariable.Parameters[2] - LinguisticVariable.Parameters[0]) * height : ((LinguisticVariable.Parameters[3] - LinguisticVariable.Parameters[0]) * (LinguisticVariable.Parameters[2] - LinguisticVariable.Parameters[1])) * height / 2;
+        }
+
         public double GlobalCardinalNumber
         {
             get
@@ -191,7 +200,7 @@ namespace Toolkit
                 }
             }
 
-            if(LinguisticVariable.Absoluteness.IsAbsolute)
+            if(aQuantifier.Absoluteness.IsAbsolute)
             {
                 r = aQuantifier.MembershipFunction.GetMembership(r);
             }
@@ -209,7 +218,7 @@ namespace Toolkit
             }
             else
             {
-                t2 = t2 - Math.Pow((supportCount / allRecordsCount) * (AnotherSummarizator.Support().Count / AnotherSummarizator.AllRecords.Elements.Count), 2);
+                t2 = t2 - Math.Pow((supportCount / allRecordsCount) * (anotherSummarizatorSupportCount / anotherSummarizatorAllRecordsCount), 2);
             }
             degrees.Add(DegreesLabels[1], t2);
 
@@ -224,11 +233,22 @@ namespace Toolkit
             }
 
             // T_4
-            double t4 = supportCount / allRecordsCount;
-            if (AnotherSummarizator != null)
+
+            double t4 = 0;
+            if(AnotherSummarizator == null)
             {
-                t4 *= AnotherSummarizator.Support().Count / AnotherSummarizator.AllRecords.Elements.Count;
+                t4 = supportCount / allRecordsCount; ;
             }
+            else
+            {
+                t4 = supportCount / allRecordsCount * (anotherSummarizatorSupportCount / anotherSummarizatorAllRecordsCount);
+            }
+
+            if(Qualificator != null)
+            {
+                t4 -= degrees["T_3"];
+            }
+
             degrees.Add(DegreesLabels[3], t4);
 
             // T_5 
@@ -237,34 +257,34 @@ namespace Toolkit
             degrees.Add(DegreesLabels[4], t5);
 
             // T_6
+
             double distance = aQuantifier.Parameters.Last() -
                                      aQuantifier.Parameters.First();
-            degrees.Add(DegreesLabels[5], 1 - distance / AllRecords.Elements.Count);
+            double totalRange = aQuantifier.Absoluteness.IsAbsolute ? CountOfAllRecordsInDb : 1;
+            degrees.Add(DegreesLabels[5], 1 - distance / totalRange);
 
             // T_7
-            var quantifierSet = Enumerable.Range((int)aQuantifier.Parameters.First(),
-                (int)aQuantifier.Parameters.Last() - 1);
-            double quantifierCardinalNumber = quantifierSet.Sum(i => aQuantifier.MembershipFunction.GetMembership(i));
-            degrees.Add(DegreesLabels[6], Math.Min(1, quantifierCardinalNumber / distance));
-
+            double distance2 = aQuantifier.GetSurfaceArea();
+            double totalRange2 = aQuantifier.Absoluteness.IsAbsolute ? CountOfAllRecordsInDb : 1;
+            degrees.Add(DegreesLabels[6], 1 - distance2 / totalRange2);
+           
             // T_8
-
-            double t8 = supportCount / allRecordsCount;
+            double t8 = LocalCardinalNumber / allRecordsCount;
             if (AnotherSummarizator != null)
             {
-                t8 *= AnotherSummarizator.Support().Count / AnotherSummarizator.AllRecords.Elements.Count;
+                t8 *= AnotherSummarizator.LocalCardinalNumber / anotherSummarizatorAllRecordsCount;
             }
             degrees.Add(DegreesLabels[7], t8);
 
             if (Qualificator != null)
             {
                 // T_9
-                double t9 = 1 - (qualificatorSupportCount / allRecordsCount);
+                double t9 = 1 - (qualificatorSupportCount / qualificatorAllRecordsCount);
                 degrees.Add(DegreesLabels[8], t9);
 
 
                 // Meassure T_10
-                double t10 = 1 - qualificatorSupportCount / qualificatorAllRecordsCount;
+                double t10 = 1 - Qualificator.LocalCardinalNumber / qualificatorAllRecordsCount;
                 degrees.Add(DegreesLabels[9], t10);
 
                 // Meassure T_11
