@@ -2,7 +2,7 @@
 <ArrayOfLinguisticVariable xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <LinguisticVariable>
-    <Name>małe zachmurzenie</Name>
+    <Name>małe zachmurzenie o 9:00</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
       <double>0</double>
@@ -13,7 +13,7 @@
   </LinguisticVariable>
 
   <LinguisticVariable>
-    <Name>duże zachmurzenie</Name>
+    <Name>duże zachmurzenie o 9:00</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
       <double>3</double>
@@ -24,7 +24,7 @@
   </LinguisticVariable>
 
   <LinguisticVariable>
-    <Name>bardzo wysoka wilgotność powietrza</Name>
+    <Name>bardzo wysoka wilgotność powietrza o 9:00</Name>
     <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
     <Parameters>
       <double>80</double>
@@ -36,7 +36,7 @@
   </LinguisticVariable>
 
   <LinguisticVariable>
-    <Name>średnia wilgotność powietrza</Name>
+    <Name>średnia wilgotność powietrza o 9:00</Name>
     <MembershipFunctionType>TriangularFunction</MembershipFunctionType>
     <Parameters>
       <double>50</double>
@@ -47,7 +47,7 @@
   </LinguisticVariable>
   
   <LinguisticVariable>
-    <Name>suche powietrze</Name>
+    <Name>suche powietrze o 9:00</Name>
     <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
     <Parameters>
       <double>0</double>
@@ -86,9 +86,9 @@
     <MembershipFunctionType>TrapezoidalFunction</MembershipFunctionType>
     <Parameters>
       <double>20</double>
-      <double>30</double>
-      <double>35</double>
-      <double>35</double>
+      <double>27</double>
+      <double>32</double>
+      <double>32</double>
     </Parameters>
     <MemberToExtract>MinimalTemperature</MemberToExtract>
   </LinguisticVariable>
