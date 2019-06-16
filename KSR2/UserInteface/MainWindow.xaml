@@ -47,21 +47,31 @@
         </ListView>
         <Button Content="Zapisz do pliku" FontSize="24" x:Name="Button_Save"  HorizontalAlignment="Left" Margin="7,-52,0,0" VerticalAlignment="Top" Width="168" Height="41" Click="Button_Click" Grid.Column="1"/>
         <Button Content="Generuj" FontSize="24" x:Name="Generate_Summarizations"  HorizontalAlignment="Left" Margin="23,-52,0,0" VerticalAlignment="Top" Width="122" Height="41" Click="Generate_Summarizations_Click"/>
-        <Expander Grid.Column="4" Header="Miary jakości" HorizontalAlignment="Left" Height="292" Margin="10,-61,0,0" VerticalAlignment="Top" Width="150" Foreground="White" FontSize="18" FontWeight="Heavy" Grid.RowSpan="2">
-            <StackPanel x:Name="Stack_Panel_Check_Boxes" Background="#222222" VerticalAlignment="Stretch"/>
+        <Expander Grid.Column="4" Header="Miary jakości" HorizontalAlignment="Left" Height="443" Margin="10,-61,0,0" VerticalAlignment="Top" Width="148" Foreground="White" FontSize="18" FontWeight="Heavy" Grid.RowSpan="2">
+            <ScrollViewer>
+                <StackPanel x:Name="Stack_Panel_Check_Boxes" Background="#222222" VerticalAlignment="Stretch"/>
+            </ScrollViewer>
         </Expander>
-        <Expander Grid.Column="7" Header="Sumaryzatory" HorizontalAlignment="Left" Height="443" Margin="71,-61,0,0" VerticalAlignment="Top" Width="224" Grid.RowSpan="2" Foreground="White" FontSize="18" FontWeight="Heavy">
-            <StackPanel x:Name="Stack_Panel_Sumarizators" Background="#222222"/>
+        <Expander Grid.Column="5" Header="Sumaryzatory" HorizontalAlignment="Left" Height="443" Margin="85,-61,0,0" VerticalAlignment="Top" Width="322" Grid.RowSpan="2" Foreground="White" FontSize="18" FontWeight="Heavy" Grid.ColumnSpan="3">
+            <ScrollViewer>
+                <StackPanel x:Name="Stack_Panel_Sumarizators" Background="#222222"/>
+            </ScrollViewer>
         </Expander>
 
         <CheckBox x:Name="CB_Simple" Content="QP jest/ma S [T]]" IsChecked="True" Grid.Column="1" HorizontalAlignment="Left" Margin="193,-61,0,0" VerticalAlignment="Top" Width="157" Foreground="White" FontWeight="Heavy" Grid.ColumnSpan="2" Click="CB_Simple_Click"/>
         <CheckBox x:Name="CB_Complex" Content="QP jest/ma S_1 i/lub S_2 [T]" Grid.Column="1" HorizontalAlignment="Left" Margin="193,-41,0,0" VerticalAlignment="Top" Width="157" Foreground="White" FontWeight="Heavy" Grid.ColumnSpan="2" Click="CB_Complex_Click"/>
         <CheckBox x:Name="CB_Qualificator" Content="QP będących W jest/ma S [T]" Grid.Column="1" HorizontalAlignment="Left" Margin="193,-21,0,0" VerticalAlignment="Top" Width="197" Foreground="White" FontWeight="Heavy" Grid.ColumnSpan="3" Click="CB_Qualificator_Click"/>
-        <Expander  x:Name="EXP_Qualifiers"  Grid.Column="7" Header="Kwalifikatory" HorizontalAlignment="Left" Height="444" Margin="320,-61,0,0" VerticalAlignment="Top" Width="202" Grid.RowSpan="2" Foreground="White" FontSize="18" FontWeight="Heavy">
-            <StackPanel x:Name="Stack_Panel_Qualificators" Background="#222222" Height="400" Margin="0,0,-2,0"/>
+
+        <Expander x:Name="EXP_Qualifiers" Grid.Column="7" Header="Kwalifikatory" HorizontalAlignment="Left" Height="443" Margin="252,-61,0,0" VerticalAlignment="Top" Width="322" Grid.RowSpan="2" Foreground="White" FontSize="18" FontWeight="Heavy">
+            <ScrollViewer>
+                <StackPanel x:Name="Stack_Panel_Qualificators" Background="#222222"/>
+            </ScrollViewer>
         </Expander>
-        <Expander Grid.Column="4" Header="Kwantyfikatory" HorizontalAlignment="Left" Height="443" Margin="224,-61,0,0" VerticalAlignment="Top" Width="224" Grid.RowSpan="2" Foreground="White" FontSize="18" FontWeight="Heavy" Grid.ColumnSpan="4">
-            <StackPanel x:Name="Stack_Panel_Quantifiers" Background="#222222" VerticalAlignment="Stretch"/>
+
+        <Expander Grid.Column="4" Header="Kwantyfikatory" HorizontalAlignment="Left" Height="442" Margin="163,-61,0,0" VerticalAlignment="Top" Width="182" Grid.RowSpan="2" Foreground="White" FontSize="18" FontWeight="Heavy" Grid.ColumnSpan="2">
+            <ScrollViewer>
+                <StackPanel x:Name="Stack_Panel_Quantifiers" Background="#222222" VerticalAlignment="Stretch" Height="413" Width="168"/>
+            </ScrollViewer>
         </Expander>
     </Grid>
 </Window>

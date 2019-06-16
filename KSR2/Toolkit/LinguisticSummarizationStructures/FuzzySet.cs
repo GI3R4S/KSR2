@@ -191,7 +191,14 @@ namespace Toolkit
                 }
             }
 
-            r = aQuantifier.MembershipFunction.GetMembership(r);
+            if(LinguisticVariable.Absoluteness.IsAbsolute)
+            {
+                r = aQuantifier.MembershipFunction.GetMembership(r);
+            }
+            else
+            {
+                r = aQuantifier.MembershipFunction.GetMembership(r / allRecordsCount);
+            }
             degrees.Add(DegreesLabels[0], r);
 
             // T_2

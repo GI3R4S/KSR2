@@ -24,6 +24,8 @@ namespace Toolkit
         public List<double> Parameters = new List<double>();
         public string MemberToExtract { get; set; }
 
+        public Absoluteness Absoluteness { get; set; } = new Absoluteness();
+
         public bool IsQuantifier()
         {
             return MemberToExtract == "" ? true : false;

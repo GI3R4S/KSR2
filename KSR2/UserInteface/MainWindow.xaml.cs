@@ -25,23 +25,22 @@ namespace UserInteface
         {
             InitializeComponent();
             data = XlsxReader.ReadXlsx("..\\..\\..\\Resources\\weatherAUS.xlsx");
-            summarizators = LinguisticVariableSerializer.Deserialize("..\\..\\..\\Resources\\Summarizators.xml");
+            summarizators = LinguisticVariableSerializer.Deserialize("..\\..\\..\\Resources\\Attributes.xml");
             quantifiers = LinguisticVariableSerializer.Deserialize("..\\..\\..\\Resources\\Quantifiers.xml");
-            qualificators = LinguisticVariableSerializer.Deserialize("..\\..\\..\\Resources\\Qualificators.xml");
+            qualificators = LinguisticVariableSerializer.Deserialize("..\\..\\..\\Resources\\Attributes.xml");
 
 
             for (int i = 0; i < FuzzySet.DegreesLabels.Count; ++i)
             {
-                CheckBox checkBox = new CheckBox() { IsChecked = true, Content = FuzzySet.DegreesLabels[i], Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)), FontWeight = FontWeights.Heavy };
+                CheckBox checkBox = new CheckBox() { FontSize = 13, IsChecked = true, Content = FuzzySet.DegreesLabels[i], Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)), FontWeight = FontWeights.Heavy };
                 DegreesCheckboxes.Add(checkBox);
                 checkBox.Click += DegreesUpdated;
                 Stack_Panel_Check_Boxes.Children.Add(DegreesCheckboxes[i]);
-
             }
 
             for (int i = 0; i < quantifiers.Count; ++i)
             {
-                CheckBox checkBox = new CheckBox() { Content = quantifiers[i].Name, IsEnabled = true, Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)), IsChecked = true };
+                CheckBox checkBox = new CheckBox() { FontSize = 13, Content = quantifiers[i].Name, IsEnabled = true, Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)), IsChecked = true };
                 QuantifiersCheckboxes.Add(checkBox);
                 checkBox.Click += QuantificatorsUpdated;
                 Stack_Panel_Quantifiers.Children.Add(checkBox);
@@ -49,7 +48,7 @@ namespace UserInteface
 
             for (int i = 0; i < qualificators.Count; ++i)
             {
-                CheckBox checkBox = new CheckBox() { Content = qualificators[i].Name, IsEnabled = true, Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)), };
+                CheckBox checkBox = new CheckBox() { FontSize = 13, Content = qualificators[i].Name, IsEnabled = true, Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)), };
                 QualificatorsCheckboxes.Add(checkBox);
                 checkBox.Click += QualificatorsUpdated;
                 Stack_Panel_Qualificators.Children.Add(checkBox);
@@ -57,7 +56,7 @@ namespace UserInteface
 
             for (int i = 0; i < summarizators.Count; ++i)
             {
-                CheckBox checkBox = new CheckBox() { Content = summarizators[i].Name, IsEnabled = true, Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)), };
+                CheckBox checkBox = new CheckBox() { FontSize = 13, Content = summarizators[i].Name, IsEnabled = true, Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)), };
                 SummarizatorsCheckboxes.Add(checkBox);
                 Stack_Panel_Sumarizators.Children.Add(checkBox);
                 checkBox.Click += SummarizationsUpdated;
@@ -188,16 +187,31 @@ namespace UserInteface
             }
 
             summarization += "\r\n";
-            foreach(CheckBox checkBox in DegreesCheckboxes.Where(cb => cb.IsChecked.Value))
+
+            foreach (CheckBox checkBox in DegreesCheckboxes.Where(cb => cb.IsChecked.Value))
             {
                 try
                 {
                     var searchedPair = filteredDegrees.First(pair => pair.Key.Equals(checkBox.Content));
-                    summarization += $"{checkBox.Content}({searchedPair.Value:N3}) ";
+                    summarization += $"{checkBox.Content}\t";
+
+                }
+                catch
+                {
+                    summarization += $"{checkBox.Content}\t";
+                }
+            }
+            summarization += "\n";
+            foreach (CheckBox checkBox in DegreesCheckboxes.Where(cb => cb.IsChecked.Value))
+            {
+                try
+                {
+                    var searchedPair = filteredDegrees.First(pair => pair.Key.Equals(checkBox.Content));
+                    summarization += $"{searchedPair.Value:N3}\t ";
 
                 } catch
                 {
-                    summarization += $"{checkBox.Content}:(-) ";
+                    summarization += "[ - ]\t";
                 }
             }
 

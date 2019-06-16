@@ -10,6 +10,11 @@
       <double>5000</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
+    <Absoluteness>
+      <Absoluteness>
+        <IsAbsolute>false</IsAbsolute>
+      </Absoluteness>
+    </Absoluteness>
   </LinguisticVariable>
   <LinguisticVariable>
     <Name>Około 20% </Name>
@@ -20,6 +25,9 @@
       <double>23200</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
+    <Absoluteness>
+      <IsAbsolute>false</IsAbsolute>
+    </Absoluteness>
   </LinguisticVariable>
   <LinguisticVariable>
     <Name>Około połowa</Name>
@@ -30,6 +38,9 @@
       <double>41000</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
+    <Absoluteness>
+      <IsAbsolute>false</IsAbsolute>
+    </Absoluteness>
   </LinguisticVariable>
   <LinguisticVariable>
     <Name>Między 30000 a 45000</Name>
@@ -40,6 +51,9 @@
       <double>50000</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
+    <Absoluteness>
+        <IsAbsolute>true</IsAbsolute>
+      </Absoluteness>
   </LinguisticVariable>
   <LinguisticVariable>
     <Name>Około 80% </Name>
@@ -50,6 +64,9 @@
       <double>58000</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
+    <Absoluteness>
+      <IsAbsolute>false</IsAbsolute>
+    </Absoluteness>
   </LinguisticVariable>
   <LinguisticVariable>
     <Name>Prawie wszystkie</Name>
@@ -61,5 +78,8 @@
       <double>58065</double>
     </Parameters>
     <MemberToExtract></MemberToExtract>
+    <Absoluteness>
+      <IsAbsolute>false</IsAbsolute>
+    </Absoluteness>
   </LinguisticVariable>
 </ArrayOfLinguisticVariable>
