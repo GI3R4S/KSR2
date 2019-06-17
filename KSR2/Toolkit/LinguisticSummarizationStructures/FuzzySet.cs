@@ -178,6 +178,10 @@ namespace Toolkit
                 complexSummarizationSupportCount = ResultMembership.Count(p => p.Value != 0);
                 complexSummarizationCardinality = GlobalCardinalNumber;
             }
+            if(AnotherSummarizator != null && AnotherSummarizator.RelationType.Equals("OR"))
+            {
+
+            }
             // T_1
             double r = 0;
             if (AnotherSummarizator != null && Qualificator == null)
@@ -202,11 +206,13 @@ namespace Toolkit
 
             if(aQuantifier.Absoluteness.IsAbsolute)
             {
-                r = aQuantifier.MembershipFunction.GetMembership(r);
+                double membership = aQuantifier.MembershipFunction.GetMembership(r);
+                r = membership;
             }
             else
             {
-                r = aQuantifier.MembershipFunction.GetMembership(r / allRecordsCount);
+                double relation = r / CountOfAllRecordsInDb;
+                r = aQuantifier.MembershipFunction.GetMembership(relation);
             }
             degrees.Add(DegreesLabels[0], r);
 
@@ -214,11 +220,12 @@ namespace Toolkit
             double t2 = 1;
             if (AnotherSummarizator == null)
             {
-                t2 = t2 - (supportCount / allRecordsCount);
+                t2 -= (supportCount / allRecordsCount);
             }
             else
             {
-                t2 = t2 - Math.Pow((supportCount / allRecordsCount) * (anotherSummarizatorSupportCount / anotherSummarizatorAllRecordsCount), 2);
+                double multiplication = (supportCount / allRecordsCount) * (anotherSummarizatorSupportCount / anotherSummarizatorAllRecordsCount);
+                t2 -= Math.Pow(multiplication, (1f / 2));
             }
             degrees.Add(DegreesLabels[1], t2);
 
@@ -273,8 +280,9 @@ namespace Toolkit
             if (AnotherSummarizator != null)
             {
                 t8 *= AnotherSummarizator.LocalCardinalNumber / anotherSummarizatorAllRecordsCount;
+                t8 = Math.Pow(t8, 1f / 2);
             }
-            degrees.Add(DegreesLabels[7], t8);
+            degrees.Add(DegreesLabels[7], 1 - t8);
 
             if (Qualificator != null)
             {

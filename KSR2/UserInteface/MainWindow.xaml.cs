@@ -69,6 +69,7 @@ namespace UserInteface
         private void GenerateSummarizations()
         {
             Summarizations.Clear();
+            Results.ItemsSource = null;
             // Collect chosen quantificators
             List<LinguisticVariable> chosenQuantyficators = new List<LinguisticVariable>();
             for (int i = 0; i < Stack_Panel_Quantifiers.Children.Count; ++i)
@@ -141,7 +142,16 @@ namespace UserInteface
                         int i = 0;
                         foreach(string summary in summarizationResult.Summaries)
                         {
-                            streamWriter.WriteLine(summary);
+                            string[] parts = summary.Split('\n');
+                            string part1 = parts[0];
+                            string part2 = parts[1];
+                            string part3 = parts[2];
+
+                            streamWriter.WriteLine(part1);
+                            streamWriter.WriteLine(part2);
+                            streamWriter.WriteLine(part3);
+
+                            streamWriter.WriteLine();
                             if(i == 0)
                             {
                                 streamWriter.Write("\r\n");
@@ -212,7 +222,7 @@ namespace UserInteface
 
                 } catch
                 {
-                    summarization += "[ - ]\t";
+                    summarization += "     \t";
                 }
             }
 
