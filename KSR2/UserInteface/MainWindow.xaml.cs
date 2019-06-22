@@ -110,9 +110,9 @@ namespace UserInteface
             {
                 chosenSummarizators[0].AnotherSummarizator = chosenSummarizators[1];
                 chosenSummarizators[0].AnotherSummarizator.RelationType = "AND";
-                Process(chosenSummarizators[0], quantifiers);
+                Process(chosenSummarizators[0], chosenQuantyficators);
                 chosenSummarizators[0].AnotherSummarizator.RelationType = "OR";
-                Process(chosenSummarizators[0], quantifiers);
+                Process(chosenSummarizators[0], chosenQuantyficators);
             }
             else if (CB_Qualificator.IsChecked.Value)
             {

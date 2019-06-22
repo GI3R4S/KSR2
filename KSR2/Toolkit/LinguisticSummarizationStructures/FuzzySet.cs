@@ -229,18 +229,30 @@ namespace Toolkit
             }
             degrees.Add(DegreesLabels[1], t2);
 
-
+            //T_3
             if (Qualificator != null)
             {
-                //T_3
                 List<Record> qualificatorSupport = Qualificator.Support();
                 int intersectCount = new ClassicalSet<Record>(Support()).Intersect(qualificatorSupport).Count;
                 double t3 = intersectCount / qualificatorSupportCount;
                 degrees.Add(DegreesLabels[2], t3);
             }
+            else
+            {
+                double t3 = 0.0;
+                if (AnotherSummarizator == null)
+                {
+                    t3 = 1.0 * supportCount / CountOfAllRecordsInDb;
+                }
+                else
+                {
+                    int countOfSupport = ResultMembership.Count(pair => pair.Value > 0);
+                    t3 =  1.0 * countOfSupport / CountOfAllRecordsInDb;
+                }
+                degrees.Add(DegreesLabels[2], t3);
+            }
 
             // T_4
-
             double t4 = 0;
             if(AnotherSummarizator == null)
             {
