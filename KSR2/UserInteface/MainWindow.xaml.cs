@@ -25,6 +25,7 @@ namespace UserInteface
         {
             InitializeComponent();
             data = XlsxReader.ReadXlsx("..\\..\\..\\Resources\\weatherAUS.xlsx");
+            FuzzySet.DB = new ClassicalSet<Record>(data);
             summarizators = LinguisticVariableSerializer.Deserialize("..\\..\\..\\Resources\\Attributes.xml");
             quantifiers = LinguisticVariableSerializer.Deserialize("..\\..\\..\\Resources\\Quantifiers.xml");
             qualificators = LinguisticVariableSerializer.Deserialize("..\\..\\..\\Resources\\Attributes.xml");
@@ -116,7 +117,7 @@ namespace UserInteface
             }
             else if (CB_Qualificator.IsChecked.Value)
             {
-                chosenSummarizators[0].Qualificator = chosenQualificator;
+                chosenSummarizators[0].Qualifier = chosenQualificator;
                 Process(chosenSummarizators[0], chosenQuantyficators);
             }
 
@@ -188,9 +189,9 @@ namespace UserInteface
                 string relation = aFuzzySet.AnotherSummarizator.RelationType == "AND" ? "i" : "lub";
                 summarization = $"{aQuantifier.Name} wpisów ma parametr: {aFuzzySet.LinguisticVariable.Name} {relation} parametr: {aFuzzySet.AnotherSummarizator.LinguisticVariable.Name} [{average:N3}]";
             }
-            else if (aFuzzySet.Qualificator != null)
+            else if (aFuzzySet.Qualifier != null)
             {
-                summarization = $"{aQuantifier.Name} wpisów posiadając parametr: {aFuzzySet.Qualificator.LinguisticVariable.Name} posiadało parametr: {aFuzzySet.LinguisticVariable.Name} [{average:N3}]";
+                summarization = $"{aQuantifier.Name} wpisów posiadając parametr: {aFuzzySet.Qualifier.LinguisticVariable.Name} posiadało parametr: {aFuzzySet.LinguisticVariable.Name} [{average:N3}]";
             }
             else
             {
