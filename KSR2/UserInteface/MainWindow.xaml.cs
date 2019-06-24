@@ -141,7 +141,7 @@ namespace UserInteface
                     foreach (SummarizationResult summarizationResult in Summarizations)
                     {
                         int i = 0;
-                        foreach(string summary in summarizationResult.Summaries)
+                        foreach (string summary in summarizationResult.Summaries)
                         {
                             string[] parts = summary.Split('\n');
                             string part1 = parts[0];
@@ -153,14 +153,38 @@ namespace UserInteface
                             streamWriter.WriteLine(part3);
 
                             streamWriter.WriteLine();
-                            if(i == 0)
+                            if (i == 0)
                             {
                                 streamWriter.Write("\r\n");
                             }
                             i++;
                         }
-                        streamWriter.WriteLine("\r\n\r\n\r\n##################################################################\r\n\r\n\r\n");
+                        streamWriter.Write("\r\n\r\n\r\n##################################################################\r\n\r\n\r\n");
                     }
+                }
+                using (StreamWriter streamWriter = new StreamWriter(saveFileDialog.FileName.Insert(saveFileDialog.FileName.IndexOf(".txt"), "_for_table")))
+                {
+                    foreach (SummarizationResult summarizationResult in Summarizations)
+                    {
+
+                        foreach (string summary in summarizationResult.Summaries)
+                        {
+                            string[] parts = summary.Split('\n');
+                            streamWriter.WriteLine(parts[0].Replace('\r', ' '));
+                        }
+
+                        streamWriter.WriteLine();
+                        streamWriter.WriteLine();
+
+                        foreach (string summary in summarizationResult.Summaries)
+                        {
+                            string[] parts = summary.Split('\n');
+                            streamWriter.WriteLine(parts[2]);
+                        }
+                        streamWriter.Write("\r\n\r\n\r\n##################################################################\r\n\r\n\r\n");
+                    }
+                    
+
                 }
             }
         }
@@ -221,7 +245,8 @@ namespace UserInteface
                     var searchedPair = filteredDegrees.First(pair => pair.Key.Equals(checkBox.Content));
                     summarization += $"{searchedPair.Value:N3}\t ";
 
-                } catch
+                }
+                catch
                 {
                     summarization += "     \t";
                 }
